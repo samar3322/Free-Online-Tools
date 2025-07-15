@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
     <style>
         :root {
             --primary: #e74c3c;
@@ -460,6 +461,57 @@
             color: #721c24;
         }
         
+        /* Ad Container Styles */
+        .ad-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin: 30px auto;
+            text-align: center;
+            max-width: 728px;
+        }
+        
+        .ad-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .ad-placeholder {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e9e9e9 100%);
+            border-radius: 8px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-weight: 500;
+            margin: 0 auto;
+        }
+        
+        .ad-space {
+            width: 100%;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        
+        /* AdMob banner specific styling */
+        .adsbygoogle {
+            display: block;
+            margin: 0 auto;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2.5rem;
@@ -480,6 +532,10 @@
             
             .btn {
                 width: 100%;
+            }
+            
+            .ad-container {
+                padding: 15px;
             }
         }
         
@@ -531,6 +587,10 @@
                 height: 40px;
                 font-size: 1.2rem;
             }
+            
+            .ad-placeholder, .ad-space {
+                height: 70px;
+            }
         }
     </style>
 </head>
@@ -544,6 +604,25 @@
             <h1><i class="fas fa-file-pdf"></i> PDFMerge Pro</h1>
             <p>Merge multiple PDF files and rearrange pages with our free online tool. Maximum 10 pages per merge.</p>
         </header>
+        
+        <!-- Top Ad Container -->
+        <div class="ad-container">
+            <div class="ad-label">
+                <i class="fas fa-ad"></i> Advertisement
+            </div>
+            <div class="ad-space" id="ad-top">
+                <!-- Google AdMob Banner Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                    data-ad-slot="1234567890"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
         
         <div class="card">
             <h2 class="card-title"><i class="fas fa-cloud-upload-alt"></i> Upload PDF Files</h2>
@@ -629,6 +708,25 @@
             </div>
         </div>
         
+        <!-- Middle Ad Container -->
+        <div class="ad-container">
+            <div class="ad-label">
+                <i class="fas fa-ad"></i> Advertisement
+            </div>
+            <div class="ad-space" id="ad-middle">
+                <!-- Google AdMob Banner Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                    data-ad-slot="1234567891"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
         <div class="card">
             <h2 class="card-title"><i class="fas fa-question-circle"></i> How to Merge PDF Files</h2>
             <ol style="padding-left: 25px; margin-top: 20px; line-height: 2;">
@@ -637,6 +735,25 @@
                 <li>Click "Merge PDF Files" to combine your documents</li>
                 <li>Download your merged PDF file</li>
             </ol>
+        </div>
+        
+        <!-- Bottom Ad Container -->
+        <div class="ad-container">
+            <div class="ad-label">
+                <i class="fas fa-ad"></i> Advertisement
+            </div>
+            <div class="ad-space" id="ad-bottom">
+                <!-- Google AdMob Banner Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                    data-ad-slot="1234567892"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
         </div>
     </div>
     
@@ -1075,7 +1192,39 @@
                     document.querySelector('header p').style.opacity = '1';
                 }, 300);
             }, 100);
+            
+            // Initialize AdMob ads
+            initializeAdMob();
         });
+        
+        function initializeAdMob() {
+            // This is where you would replace the placeholder values with your actual AdMob IDs
+            // For demonstration, we're using placeholder values
+            
+            // Top ad
+            const topAd = document.querySelector('#ad-top ins');
+            if (topAd) {
+                topAd.setAttribute('data-ad-client', 'ca-pub-XXXXXXXXXXXXXXXX');
+                topAd.setAttribute('data-ad-slot', '1234567890');
+            }
+            
+            // Middle ad
+            const middleAd = document.querySelector('#ad-middle ins');
+            if (middleAd) {
+                middleAd.setAttribute('data-ad-client', 'ca-pub-XXXXXXXXXXXXXXXX');
+                middleAd.setAttribute('data-ad-slot', '1234567891');
+            }
+            
+            // Bottom ad
+            const bottomAd = document.querySelector('#ad-bottom ins');
+            if (bottomAd) {
+                bottomAd.setAttribute('data-ad-client', 'ca-pub-XXXXXXXXXXXXXXXX');
+                bottomAd.setAttribute('data-ad-slot', '1234567892');
+            }
+            
+            // Push ads to Google
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        }
     </script>
 </body>
 </html>
