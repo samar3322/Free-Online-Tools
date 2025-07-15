@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Merge PDF files online for free. Combine multiple PDFs and rearrange pages in seconds.">
-    <meta name="keywords" content="pdf merger, merge pdf, combine pdf, pdf tool, online pdf editor">
     <title>PDFMerge Pro | Free Online PDF Merger Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -443,6 +441,25 @@
             margin-top: 20px;
         }
         
+        .status-message {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2.5rem;
@@ -519,9 +536,9 @@
 </head>
 <body>
     <div class="container">
-        <a href="index.html" class="back-btn">
+        <button class="back-btn" onclick="window.history.back()">
             <i class="fas fa-arrow-left"></i> Back to Home
-        </a>
+        </button>
         
         <header>
             <h1><i class="fas fa-file-pdf"></i> PDFMerge Pro</h1>
@@ -547,6 +564,8 @@
                 <p><strong>Selected Files:</strong></p>
                 <div class="file-list" id="file-list"></div>
             </div>
+            
+            <div id="upload-status" class="status-message"></div>
             
             <div class="progress-bar" id="progress-bar">
                 <div class="progress" id="progress"></div>
@@ -641,6 +660,7 @@
         const progress = document.getElementById('progress');
         const downloadContainer = document.getElementById('download-container');
         const downloadBtn = document.getElementById('download-btn');
+        const uploadStatus = document.getElementById('upload-status');
         
         // State
         let pdfFiles = [];
@@ -689,6 +709,18 @@
         function processFiles(files) {
             if (files.length === 0) return;
             
+            // Reset status message
+            uploadStatus.style.display = 'none';
+            
+            // Check if total pages would exceed limit
+            let newPagesCount = 0;
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].type !== 'application/pdf') {
+                    showStatusMessage('Please only upload PDF files', 'error');
+                    return;
+                }
+            }
+            
             // Show progress bar
             progressBar.style.display = 'block';
             progress.style.width = '0%';
@@ -699,25 +731,17 @@
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 
-                if (file.type !== 'application/pdf') {
-                    alert('Please only upload PDF files');
-                    processed++;
-                    updateProgress(processed, total);
-                    continue;
-                }
-                
                 // Read file to get actual page count
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const typedarray = new Uint8Array(e.target.result);
                     
                     // Use pdf-lib to get page count
-                    const pdfDocPromise = window.PDFLib.PDFDocument.load(typedarray);
-                    pdfDocPromise.then(pdfDoc => {
+                    window.PDFLib.PDFDocument.load(typedarray).then(pdfDoc => {
                         const pageCount = pdfDoc.getPageCount();
                         
                         if (totalPages + pageCount > maxPages) {
-                            alert(`You can only merge up to ${maxPages} pages. This file has ${pageCount} pages, but only ${maxPages - totalPages} pages are available.`);
+                            showStatusMessage(`You can only merge up to ${maxPages} pages. This file has ${pageCount} pages, but only ${maxPages - totalPages} pages are available.`, 'error');
                             processed++;
                             updateProgress(processed, total);
                             return;
@@ -752,7 +776,7 @@
                         }
                     }).catch(error => {
                         console.error('Error loading PDF:', error);
-                        alert('Error processing PDF file. Please try another file.');
+                        showStatusMessage('Error processing PDF file. Please try another file.', 'error');
                         processed++;
                         updateProgress(processed, total);
                     });
@@ -888,7 +912,7 @@
         
         async function mergePDFs() {
             if (pages.length === 0) {
-                alert('Please upload at least one PDF file');
+                showStatusMessage('Please upload at least one PDF file', 'error');
                 return;
             }
             
@@ -921,10 +945,10 @@
                 }
                 
                 // Save the merged PDF
-                const mergedPdfBytes = await mergedPdf.save();
+                const pdfBytes = await mergedPdf.save();
                 
                 // Store the merged PDF bytes
-                this.mergedPdfBytes = mergedPdfBytes;
+                mergedPdfBytes = pdfBytes;
                 
                 // Show download option
                 downloadContainer.style.display = 'block';
@@ -935,7 +959,7 @@
                 
             } catch (error) {
                 console.error('Error merging PDFs:', error);
-                alert('An error occurred while merging the PDFs. Please try again.');
+                showStatusMessage('An error occurred while merging the PDFs. Please try again.', 'error');
             } finally {
                 // Reset button state
                 mergeBtn.innerHTML = '<i class="fas fa-object-group"></i> Merge PDF Files';
@@ -945,13 +969,13 @@
         }
         
         function downloadMergedPDF() {
-            if (!this.mergedPdfBytes) {
-                alert('No merged PDF available. Please merge files first.');
+            if (!mergedPdfBytes) {
+                showStatusMessage('No merged PDF available. Please merge files first.', 'error');
                 return;
             }
             
             // Create a Blob and download
-            const blob = new Blob([this.mergedPdfBytes], { type: 'application/pdf' });
+            const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
             saveAs(blob, 'merged-document.pdf');
         }
         
@@ -1002,6 +1026,17 @@
             }, 3000);
         }
         
+        function showStatusMessage(message, type) {
+            uploadStatus.textContent = message;
+            uploadStatus.className = `status-message status-${type}`;
+            uploadStatus.style.display = 'block';
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                uploadStatus.style.display = 'none';
+            }, 5000);
+        }
+        
         function resetTool() {
             pdfFiles = [];
             pages = [];
@@ -1011,6 +1046,7 @@
             previewContainer.style.display = 'none';
             downloadContainer.style.display = 'none';
             mergedPdfBytes = null;
+            uploadStatus.style.display = 'none';
         }
         
         // Helper Functions
