@@ -8,7 +8,8 @@
     <title>PDFMerge Pro | Free Online PDF Merger Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-8556753483227928/8473829268" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <style>
         :root {
             --primary: #e74c3c;
@@ -43,10 +44,36 @@
             margin: 0 auto;
         }
         
+        .back-btn {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            z-index: 10;
+        }
+        
+        .back-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        
         header {
             text-align: center;
-            padding: 30px 0;
+            padding: 60px 0 30px;
             margin-bottom: 20px;
+            position: relative;
         }
         
         header h1 {
@@ -306,34 +333,6 @@
             margin-top: 20px;
         }
         
-        .ad-container {
-            background: var(--accent);
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 120px;
-            margin: 30px 0;
-            text-align: center;
-            color: var(--primary-dark);
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-        
-        .ad-container::before {
-            content: "ADVERTISEMENT";
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            font-size: 0.7rem;
-            background: rgba(0,0,0,0.1);
-            padding: 3px 8px;
-            border-radius: 4px;
-            color: var(--gray);
-        }
-        
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -435,6 +434,15 @@
             transition: width 0.4s ease;
         }
         
+        .download-container {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: var(--accent-light);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+        }
+        
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2.5rem;
@@ -461,6 +469,17 @@
         @media (max-width: 480px) {
             body {
                 padding: 15px;
+            }
+            
+            header {
+                padding-top: 50px;
+            }
+            
+            .back-btn {
+                top: 15px;
+                left: 15px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
             }
             
             header h1 {
@@ -500,20 +519,14 @@
 </head>
 <body>
     <div class="container">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        
         <header>
             <h1><i class="fas fa-file-pdf"></i> PDFMerge Pro</h1>
             <p>Merge multiple PDF files and rearrange pages with our free online tool. Maximum 10 pages per merge.</p>
         </header>
-        
-        <div class="ad-container" id="ad-top">
-            <!-- AdMob Ad Unit -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-YOUR_ADMOB_PUBLISHER_ID"
-                 data-ad-slot="YOUR_AD_UNIT_ID_TOP"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-        </div>
         
         <div class="card">
             <h2 class="card-title"><i class="fas fa-cloud-upload-alt"></i> Upload PDF Files</h2>
@@ -560,14 +573,12 @@
             </div>
         </div>
         
-        <div class="ad-container" id="ad-bottom">
-            <!-- AdMob Ad Unit -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-app-pub-8556753483227928/8473829268"
-                 data-ad-slot="YOUR_AD_UNIT_ID_BOTTOM"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+        <div class="download-container" id="download-container">
+            <h2>Your PDF is Ready!</h2>
+            <button class="btn" id="download-btn">
+                <i class="fas fa-download"></i> Download Merged PDF
+            </button>
+            <p class="upload-subtext" style="margin-top: 15px;">File will be downloaded as "merged-document.pdf"</p>
         </div>
         
         <div class="card">
@@ -616,9 +627,6 @@
     </footer>
 
     <script>
-        // Initialize Google AdSense
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        
         // DOM Elements
         const dropArea = document.getElementById('drop-area');
         const fileInput = document.getElementById('file-input');
@@ -631,12 +639,15 @@
         const resetBtn = document.getElementById('reset-btn');
         const progressBar = document.getElementById('progress-bar');
         const progress = document.getElementById('progress');
+        const downloadContainer = document.getElementById('download-container');
+        const downloadBtn = document.getElementById('download-btn');
         
         // State
         let pdfFiles = [];
         let pages = [];
         let totalPages = 0;
         const maxPages = 10;
+        let mergedPdfBytes = null;
         
         // Event Listeners
         browseBtn.addEventListener('click', () => fileInput.click());
@@ -646,6 +657,7 @@
         dropArea.addEventListener('drop', handleDrop);
         mergeBtn.addEventListener('click', mergePDFs);
         resetBtn.addEventListener('click', resetTool);
+        downloadBtn.addEventListener('click', downloadMergedPDF);
         
         // File Handling
         function handleFileSelect(e) {
@@ -689,47 +701,64 @@
                 
                 if (file.type !== 'application/pdf') {
                     alert('Please only upload PDF files');
+                    processed++;
+                    updateProgress(processed, total);
                     continue;
                 }
                 
-                // Simulate processing with a delay
-                setTimeout(() => {
-                    // Simulate getting page count
-                    const pageCount = Math.min(1 + Math.floor(Math.random() * 4), maxPages - totalPages);
+                // Read file to get actual page count
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const typedarray = new Uint8Array(e.target.result);
                     
-                    if (totalPages + pageCount > maxPages) {
-                        alert(`You can only merge up to ${maxPages} pages. This file has ${pageCount} pages, but only ${maxPages - totalPages} pages are available.`);
+                    // Use pdf-lib to get page count
+                    const pdfDocPromise = window.PDFLib.PDFDocument.load(typedarray);
+                    pdfDocPromise.then(pdfDoc => {
+                        const pageCount = pdfDoc.getPageCount();
+                        
+                        if (totalPages + pageCount > maxPages) {
+                            alert(`You can only merge up to ${maxPages} pages. This file has ${pageCount} pages, but only ${maxPages - totalPages} pages are available.`);
+                            processed++;
+                            updateProgress(processed, total);
+                            return;
+                        }
+                        
+                        pdfFiles.push({
+                            name: file.name,
+                            size: formatFileSize(file.size),
+                            pages: pageCount,
+                            file: file,
+                            data: typedarray
+                        });
+                        
+                        totalPages += pageCount;
+                        
+                        // Add pages to our pages array
+                        for (let j = 1; j <= pageCount; j++) {
+                            pages.push({
+                                file: file.name,
+                                pageNumber: j,
+                                originalIndex: pages.length,
+                                fileIndex: pdfFiles.length - 1
+                            });
+                        }
+                        
                         processed++;
                         updateProgress(processed, total);
-                        return;
-                    }
-                    
-                    pdfFiles.push({
-                        name: file.name,
-                        size: formatFileSize(file.size),
-                        pages: pageCount,
-                        file: file
+                        
+                        if (processed === total) {
+                            updateFileList();
+                            renderPagePreviews();
+                        }
+                    }).catch(error => {
+                        console.error('Error loading PDF:', error);
+                        alert('Error processing PDF file. Please try another file.');
+                        processed++;
+                        updateProgress(processed, total);
                     });
-                    
-                    totalPages += pageCount;
-                    
-                    // Add pages to our pages array
-                    for (let j = 1; j <= pageCount; j++) {
-                        pages.push({
-                            file: file.name,
-                            pageNumber: j,
-                            originalIndex: pages.length
-                        });
-                    }
-                    
-                    processed++;
-                    updateProgress(processed, total);
-                    
-                    if (processed === total) {
-                        updateFileList();
-                        renderPagePreviews();
-                    }
-                }, 500 * i); // Stagger processing
+                };
+                
+                reader.readAsArrayBuffer(file);
             }
         }
         
@@ -767,10 +796,12 @@
         function renderPagePreviews() {
             if (pages.length === 0) {
                 previewContainer.style.display = 'none';
+                downloadContainer.style.display = 'none';
                 return;
             }
             
             previewContainer.style.display = 'block';
+            downloadContainer.style.display = 'none';
             pageList.innerHTML = '';
             
             pages.forEach((page, index) => {
@@ -780,9 +811,11 @@
                 pageItem.innerHTML = `
                     <div class="page-thumbnail">
                         <i class="fas fa-file-pdf"></i>
+                        <div style="position: absolute; bottom: 10px; font-size: 1rem; background: rgba(255,255,255,0.8); padding: 2px 8px; border-radius: 10px;">
+                            ${index + 1}
+                        </div>
                     </div>
                     <div class="page-info">
-                        <div class="page-number">Page ${index + 1}</div>
                         <div class="page-origin" title="${page.file}">${page.file}</div>
                         <div class="page-actions">
                             <button class="action-btn move-up" title="Move Up">
@@ -827,7 +860,7 @@
             const page = pages[index];
             
             // Find the file this page belongs to
-            const fileIndex = pdfFiles.findIndex(f => f.name === page.file);
+            const fileIndex = page.fileIndex;
             if (fileIndex !== -1) {
                 // Decrement page count for the file
                 pdfFiles[fileIndex].pages--;
@@ -836,6 +869,13 @@
                 // If file has no more pages, remove it
                 if (pdfFiles[fileIndex].pages === 0) {
                     pdfFiles.splice(fileIndex, 1);
+                    
+                    // Update file indices for pages
+                    pages.forEach(p => {
+                        if (p.fileIndex > fileIndex) {
+                            p.fileIndex--;
+                        }
+                    });
                 }
             }
             
@@ -846,7 +886,7 @@
             renderPagePreviews();
         }
         
-        function mergePDFs() {
+        async function mergePDFs() {
             if (pages.length === 0) {
                 alert('Please upload at least one PDF file');
                 return;
@@ -856,15 +896,63 @@
             mergeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Merging...';
             mergeBtn.disabled = true;
             
-            // Simulate processing delay
-            setTimeout(() => {
+            try {
+                // Create a new PDF document
+                const mergedPdf = await window.PDFLib.PDFDocument.create();
+                
+                // Add progress indicator
+                progressBar.style.display = 'block';
+                progress.style.width = '0%';
+                
+                // Copy pages from each document in order
+                for (let i = 0; i < pages.length; i++) {
+                    const page = pages[i];
+                    const file = pdfFiles[page.fileIndex];
+                    
+                    // Load the source PDF
+                    const sourcePdf = await window.PDFLib.PDFDocument.load(file.data);
+                    
+                    // Copy the specific page
+                    const [copiedPage] = await mergedPdf.copyPages(sourcePdf, [page.pageNumber - 1]);
+                    mergedPdf.addPage(copiedPage);
+                    
+                    // Update progress
+                    progress.style.width = `${((i + 1) / pages.length) * 100}%`;
+                }
+                
+                // Save the merged PDF
+                const mergedPdfBytes = await mergedPdf.save();
+                
+                // Store the merged PDF bytes
+                this.mergedPdfBytes = mergedPdfBytes;
+                
+                // Show download option
+                downloadContainer.style.display = 'block';
+                previewContainer.style.display = 'none';
+                
                 // Success message
                 showSuccessMessage(`Successfully merged ${pages.length} pages into a single PDF!`);
                 
+            } catch (error) {
+                console.error('Error merging PDFs:', error);
+                alert('An error occurred while merging the PDFs. Please try again.');
+            } finally {
                 // Reset button state
                 mergeBtn.innerHTML = '<i class="fas fa-object-group"></i> Merge PDF Files';
                 mergeBtn.disabled = false;
-            }, 2500);
+                progressBar.style.display = 'none';
+            }
+        }
+        
+        function downloadMergedPDF() {
+            if (!this.mergedPdfBytes) {
+                alert('No merged PDF available. Please merge files first.');
+                return;
+            }
+            
+            // Create a Blob and download
+            const blob = new Blob([this.mergedPdfBytes], { type: 'application/pdf' });
+            saveAs(blob, 'merged-document.pdf');
         }
         
         function showSuccessMessage(message) {
@@ -893,9 +981,24 @@
             
             document.body.appendChild(alertDiv);
             
+            // Add keyframes for animation
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes slideIn {
+                    from { top: -50px; opacity: 0; }
+                    to { top: 20px; opacity: 1; }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
             // Remove after animation
             setTimeout(() => {
                 alertDiv.remove();
+                style.remove();
             }, 3000);
         }
         
@@ -906,6 +1009,8 @@
             fileInput.value = '';
             fileInfo.style.display = 'none';
             previewContainer.style.display = 'none';
+            downloadContainer.style.display = 'none';
+            mergedPdfBytes = null;
         }
         
         // Helper Functions
