@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Memory Trainer Game – Test your memory with random combinations of words, signs, letters, and numbers." />
+  <meta name="keywords" content="memory game, brain training, flash game, recall symbols, ai memory test" />
+  <meta name="author" content="Samar Jeet Jamwal" />
+  <title>AI Memory Trainer Game</title>
+  <style>
+    :root {
+      --primary: #d90429;
+      --bg: #fffacc;
+      --text: #7b0505;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1em;
+      font-size: 1.6em;
+    }
+
+    .container {
+      flex: 1;
+      max-width: 700px;
+      margin: auto;
+      padding: 1em;
+    }
+
+    .memory-box {
+      font-size: 2.5em;
+      padding: 1em;
+      margin: 1em 0;
+      border: 3px dashed var(--primary);
+      background: white;
+      min-height: 80px;
+      border-radius: 12px;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 0.7em;
+      font-size: 1em;
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      margin-bottom: 1em;
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.7em 1.5em;
+      margin: 0.3em;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .ad-space {
+      margin: 2em auto;
+      border: 2px dashed #ccc;
+      background: #fff0b3;
+      padding: 1em;
+      border-radius: 8px;
+    }
+
+    footer {
+      background-color: var(--primary);
+      color: white;
+      padding: 1em;
+    }
+
+    #result {
+      font-weight: bold;
+      margin-top: 1em;
+    }
+  </style>
+</head>
+<body>
+  <header>🧠 AI Memory Trainer</header>
+
+  <div class="container">
+    <p>Total Flashes: <span id="flashCount">0</span></p>
+
+    <div class="memory-box" id="displayBox">Click Start to Begin</div>
+
+    <input type="text" id="userInput" placeholder="Type what you just saw..." disabled />
+    <br />
+    <button id="submitBtn" disabled>Submit Answer</button>
+    <br />
+    <button id="startBtn">Start Test</button>
+    <button id="stopBtn" disabled>Stop & Show Result</button>
+
+    <div id="result"></div>
+
+    <div class="ad-space">
+      <!-- Replace with your actual AdMob Ad -->
+      <strong>Ad Space</strong><br />
+      Google AdMob banner here
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Memory Trainer by Samar Jeet Jamwal
+  </footer>
+
+  <script>
+    const displayBox = document.getElementById("displayBox");
+    const userInput = document.getElementById("userInput");
+    const flashCount = document.getElementById("flashCount");
+    const resultBox = document.getElementById("result");
+
+    const startBtn = document.getElementById("startBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const submitBtn = document.getElementById("submitBtn");
+
+    let flashes = [];
+    let userAnswers = [];
+    let isRunning = false;
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numbers = "0123456789";
+    const symbols = "!@#$%^&*";
+    const words = ["STAR", "DOG", "FIRE", "MOON", "SUN", "LION", "LOVE", "JAVA", "KING", "CODE", "NOTE", "WOLF", "SKY", "RAIN"];
+
+    function getRandomItem() {
+      const randomWord = words[Math.floor(Math.random() * words.length)];
+      const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+      const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+      const randomDigit = numbers[Math.floor(Math.random() * numbers.length)];
+
+      // Combine in random order
+      const pool = [randomWord, randomLetter, randomSymbol, randomDigit];
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+
+      return pool.join('');
+    }
+
+    function flashItem() {
+      const item = getRandomItem();
+      displayBox.textContent = item;
+      flashes.push(item);
+      flashCount.textContent = flashes.length;
+
+      setTimeout(() => {
+        displayBox.textContent = "Type what you saw...";
+        userInput.disabled = false;
+        submitBtn.disabled = false;
+        userInput.focus();
+      }, 2000);
+    }
+
+    function startTest() {
+      flashes = [];
+      userAnswers = [];
+      resultBox.textContent = "";
+      flashCount.textContent = "0";
+      isRunning = true;
+
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+
+      flashItem();
+    }
+
+    function submitAnswer() {
+      const answer = userInput.value.trim().toUpperCase();
+      userAnswers.push(answer);
+      userInput.value = "";
+      userInput.disabled = true;
+      submitBtn.disabled = true;
+
+      if (isRunning) {
+        flashItem();
+      }
+    }
+
+    function stopTest() {
+      isRunning = false;
+      displayBox.textContent = "Test Stopped.";
+      userInput.disabled = true;
+      submitBtn.disabled = true;
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+
+      // Evaluate
+      let correct = 0;
+      for (let i = 0; i < flashes.length && i < userAnswers.length; i++) {
+        if (flashes[i] === userAnswers[i]) {
+          correct++;
+        }
+      }
+
+      const total = flashes.length;
+      const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+      let grade = "";
+
+      if (accuracy <= 20) grade = "🧱 Dull Mind";
+      else if (accuracy <= 40) grade = "🧒 Childish Mind";
+      else if (accuracy <= 70) grade = "🙂 Average Mind";
+      else if (accuracy <= 90) grade = "🤓 Intelligent Mind";
+      else grade = "🧠 Genius Mind";
+
+      resultBox.innerHTML = `
+        <p>✅ Correct Answers: <b>${correct}</b> / ${total}</p>
+        <p>🎯 Accuracy: <b>${accuracy}%</b></p>
+        <p>🏆 Memory Grade: <span style="font-size:1.2em;">${grade}</span></p>
+      `;
+    }
+
+    startBtn.addEventListener("click", startTest);
+    stopBtn.addEventListener("click", stopTest);
+    submitBtn.addEventListener("click", submitAnswer);
+
+    userInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter" && !submitBtn.disabled) {
+        submitAnswer();
+      }
+    });
+  </script>
+</body>
+</html>
