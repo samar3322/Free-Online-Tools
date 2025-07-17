@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Streamix Tools - PDF & Image Tools</title>
+    <title>Streamix Tools - PDF, Image & AI Tools Online</title>
+    <meta name="description" content="Free online tools for PDFs, images, and AI. Merge, split, compress PDFs; enhance images; AI caption, text rewriter, password generator, QR code and more.">
+    <meta name="keywords" content="pdf tools, image tools, ai tools, online tools, free tools, pdf merge, pdf split, image compress, image enhancer, ai caption, password generator, qr code generator">
+    <meta name="author" content="Samar Jeet Jamwal">
+    <meta property="og:title" content="Streamix Tools - PDF, Image & AI Tools Online">
+    <meta property="og:description" content="Free online tools for PDFs, images, and AI. Merge, split, compress PDFs; enhance images; AI caption, text rewriter, password generator, QR code and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://samar3322.github.io/Streamix/">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <style>
@@ -47,13 +54,13 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            padding: 15px 0;
         }
         
-        .navbar {
+        .logo-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 20px 0;
         }
         
         .logo {
@@ -78,62 +85,9 @@
             justify-content: center;
         }
         
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark-text);
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-        }
-        
-        .nav-links a:hover {
-            color: var(--primary-red);
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 3px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--primary-red);
-            transition: var(--transition);
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        .auth-buttons {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-        
         /* Hero Section */
         .hero {
-            padding: 100px 0;
+            padding: 80px 0 40px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -148,6 +102,7 @@
             height: 300px;
             border-radius: 50%;
             background: rgba(231, 76, 60, 0.1);
+            z-index: 0;
         }
         
         .hero::after {
@@ -159,19 +114,37 @@
             height: 200px;
             border-radius: 50%;
             background: rgba(231, 76, 60, 0.1);
+            z-index: 0;
         }
         
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            font-family: 'Montserrat', sans-serif;
-            color: var(--dark-text);
+        .hero-content {
             position: relative;
             z-index: 2;
         }
         
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark-text);
+            line-height: 1.2;
+        }
+        
         .hero h1 span {
             color: var(--primary-red);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero h1 span::after {
+            content: "";
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: rgba(231, 76, 60, 0.2);
+            z-index: -1;
         }
         
         .hero p {
@@ -179,41 +152,84 @@
             max-width: 700px;
             margin: 0 auto 40px;
             color: var(--light-text);
-            position: relative;
-            z-index: 2;
         }
         
         .hero-btns {
             display: flex;
             justify-content: center;
             gap: 20px;
-            position: relative;
-            z-index: 2;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-size: 1.1rem;
         }
         
         .btn-primary {
             background: var(--primary-red);
             color: var(--white);
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: var(--dark-red);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
         }
         
         .btn-secondary {
             background: transparent;
             border: 2px solid var(--primary-red);
             color: var(--primary-red);
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 30px;
-            text-decoration: none;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(231, 76, 60, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Stats Section */
+        .stats {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 40px 0;
+            text-align: center;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .stat-item {
+            padding: 15px 20px;
+            min-width: 200px;
+        }
+        
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .stat-text {
+            color: var(--dark-text);
+            font-weight: 500;
+            font-size: 1rem;
         }
         
         /* Tools Section */
@@ -229,6 +245,7 @@
             color: var(--dark-text);
             display: inline-block;
             position: relative;
+            padding: 0 20px;
         }
         
         .section-title h2::after {
@@ -258,11 +275,14 @@
             transition: var(--transition);
             position: relative;
             z-index: 1;
+            display: block;
+            text-decoration: none;
+            color: inherit;
         }
         
         .tool-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         
         .tool-card::before {
@@ -298,6 +318,7 @@
             color: var(--light-text);
             margin-bottom: 20px;
             font-size: 0.95rem;
+            min-height: 60px;
         }
         
         .tool-link {
@@ -306,6 +327,7 @@
             color: var(--primary-red);
             font-weight: 500;
             transition: var(--transition);
+            font-size: 0.95rem;
         }
         
         .tool-link:hover {
@@ -324,7 +346,7 @@
         /* Features Section */
         .features {
             background: var(--white);
-            padding: 80px 0;
+            padding: 60px 0;
             margin: 60px 0;
             border-radius: 20px;
             box-shadow: var(--shadow);
@@ -367,17 +389,55 @@
             margin-bottom: 15px;
         }
         
+        /* Ad Container */
+        .ad-container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 40px auto;
+            text-align: center;
+            max-width: 728px;
+            border: 1px dashed var(--primary-red);
+            color: var(--light-text);
+        }
+        
+        .ad-container p {
+            margin-bottom: 10px;
+        }
+        
+        .ad-placeholder {
+            background: linear-gradient(45deg, #fef9e7, #f9e79f);
+            border-radius: 8px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            color: var(--dark-red);
+        }
+        
         /* Footer */
         footer {
             background: var(--dark-text);
             color: var(--white);
             padding: 60px 0 20px;
             margin-top: 60px;
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-red);
         }
         
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
             margin-bottom: 40px;
         }
@@ -411,11 +471,28 @@
             color: #ecf0f1;
             text-decoration: none;
             transition: var(--transition);
+            display: inline-block;
         }
         
         .footer-links a:hover {
             color: var(--primary-red);
-            padding-left: 5px;
+            transform: translateX(5px);
+        }
+        
+        .contact-info {
+            margin-top: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .contact-item i {
+            color: var(--primary-red);
+            margin-top: 5px;
         }
         
         .social-links {
@@ -449,55 +526,20 @@
             font-size: 0.9rem;
         }
         
-        /* Stats Section */
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 60px 0;
-            text-align: center;
-        }
-        
-        .stat-item {
-            padding: 20px;
-        }
-        
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary-red);
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .stat-text {
-            color: var(--dark-text);
-            font-weight: 500;
-        }
-        
         /* Responsive Design */
         @media (max-width: 992px) {
             .hero h1 {
                 font-size: 2.8rem;
             }
             
-            .tools-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-            
-            .stats {
-                flex-wrap: wrap;
+            .stat-item {
+                min-width: 160px;
             }
         }
         
         @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .nav-links {
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
+            .hero {
+                padding: 60px 0 30px;
             }
             
             .hero h1 {
@@ -508,18 +550,12 @@
                 font-size: 1rem;
             }
             
-            .hero-btns {
-                flex-direction: column;
-                align-items: center;
-            }
-            
             .section-title h2 {
                 font-size: 2rem;
             }
             
-            .tool-card {
-                max-width: 350px;
-                margin: 0 auto;
+            .stat-number {
+                font-size: 2.2rem;
             }
         }
         
@@ -536,12 +572,23 @@
                 grid-template-columns: 1fr;
             }
             
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .stat-item {
                 width: 50%;
+                min-width: auto;
+                padding: 10px;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero-btns {
+                gap: 15px;
             }
         }
     </style>
@@ -550,134 +597,133 @@
     <!-- Header -->
     <header>
         <div class="container">
-            <nav class="navbar">
+            <div class="logo-container">
                 <a href="#" class="logo">
                     <i class="fas fa-tools"></i>
                     Streamix Tools
                 </a>
             </div>
+        </div>
     </header>
 
     <!-- Hero Section -->
-    <section 
-        class="hero">
+    <section class="hero">
         <div class="container">
-            <h1>Transform Your <span>PDFs & Images </span>Effortlessly</h1>
-            <p>All-in-one solution for PDF and Image editing. Merge, split, compress, convert, and enhance your files with our powerful online tools. No installation, No Login, No Sign Up required.</p>
+            <div class="hero-content">
+                <h1>Unlock Powerful Tools for <span>PDFs, Images & AI</span></h1>
+                <p>Experience the ultimate suite for document processing, image enhancement, and AI-powered tools. Fast, secure, and completely free – no signup required!</p>
+                <div class="hero-btns">
+                    <a href="#tools" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> Explore Tools
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        <i class="fas fa-star"></i> Why Choose Us
+                    </a>
+                </div>
             </div>
+        </div>
     </section>
-    <!-- Stats Section -->
+
+    <!-- Ad Container -->
     <div class="container">
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-number">500</div>
-                <div class="stat-text">Daily Users in 000s</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">1000</div>
-                <div class="stat-text">Files Processed in 000s</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">99.9</div>
-                <div class="stat-text">Success Rate %</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">8</div>
-                <div class="stat-text">Rating@10</div>
+        <div class="ad-container">
+            <p>Advertisement Space</p>
+            <div class="ad-placeholder">
+                <!-- Google AdMob Ad Unit Code -->
+                <!-- Replace with your Ad Unit ID -->
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+                     crossorigin="anonymous"></script>
+                <!-- Streamix Ad Unit -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
         </div>
     </div>
 
-    <!-- PDF Tools Section -->
+    <!-- Stats Section -->
     <div class="container">
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">500K+</div>
+                <div class="stat-text">Daily Users</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1M+</div>
+                <div class="stat-text">Files Processed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-text">Success Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4.8★</div>
+                <div class="stat-text">User Rating</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tools Section -->
+    <div class="container" id="tools">
         <div class="section-title">
-            <h2>PDF Tools</h2>
+            <h2>Popular Tools</h2>
         </div>
         <div class="tools-grid">
-            <!-- PDF Tools Cards -->
+            <!-- PDF Merge -->
             <a href="https://samar3322.github.io/Streamix/PDF-Merge.html" class="tool-card">
                 <div class="tool-icon">
                     <i class="fas fa-object-group"></i>
                 </div>
                 <div class="tool-content">
-                    <h3>Merge PDF</h3>
-                    <p>Combine multiple PDF files into one document</p>
+                    <h3>PDF Merge</h3>
+                    <p>Combine multiple PDF files into one seamless document</p>
                     <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
                 </div>
             </a>
             
+            <!-- PDF Split -->
             <a href="https://samar3322.github.io/Streamix/pdf-split.html" class="tool-card">
                 <div class="tool-icon">
                     <i class="fas fa-cut"></i>
                 </div>
                 <div class="tool-content">
-                    <h3>Split PDF</h3>
-                    <p>Divide a PDF into multiple files by pages</p>
+                    <h3>PDF Split</h3>
+                    <p>Divide PDFs into individual pages or specific sections</p>
                     <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
                 </div>
             </a>
             
+            <!-- PDF Compress -->
             <a href="https://samar3322.github.io/Streamix/pdf-compress.html" class="tool-card">
                 <div class="tool-icon">
                     <i class="fas fa-compress-alt"></i>
                 </div>
                 <div class="tool-content">
-                    <h3>Compress PDF</h3>
-                    <p>Reduce PDF file size without losing quality</p>
-                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
-                </div>
-            </a>
-                        
-            <a href="https://samar3322.github.io/Streamix/pdf-jpg-convert.html" class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-file-image"></i>
-                </div>
-                <div class="tool-content">
-                    <h3>PDF to JPG</h3>
-                    <p>Convert each PDF page to a JPG image</p>
+                    <h3>PDF Compress</h3>
+                    <p>Reduce PDF file size without compromising quality</p>
                     <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
                 </div>
             </a>
             
-            <a href="#" class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                <div class="tool-content">
-                    <h3>JPG to PDF</h3>
-                    <p>Convert multiple JPG images to a PDF</p>
-                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
-                </div>
-            </a>
-            
-            <a href="#" class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-tint"></i>
-                </div>
-                <div class="tool-content">
-                    <h3>Watermark</h3>
-                    <p>Add text or image watermarks to PDFs</p>
-                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
-                </div>
-            </a>
-            </div>
-        <!-- Image Tools Section -->
-        <div class="section-title">
-            <h2>Image Tools</h2>
-        </div>
-        <div class="tools-grid">
-            <!-- Image Tools Cards -->
+            <!-- Image Compress -->
             <a href="https://samar3322.github.io/Streamix/image-compress.html" class="tool-card">
                 <div class="tool-icon">
                     <i class="fas fa-file-image"></i>
                 </div>
                 <div class="tool-content">
                     <h3>Image Compress</h3>
-                    <p>Reduce image file size without losing quality</p>
+                    <p>Optimize images for web with smart compression</p>
                     <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
                 </div>
             </a>
             
+            <!-- Image Enhancer -->
             <a href="https://samar3322.github.io/Streamix/image-enhancer.html" class="tool-card">
                 <div class="tool-icon">
                     <i class="fas fa-magic"></i>
@@ -689,10 +735,123 @@
                 </div>
             </a>
         </div>
+        
+        <div class="section-title">
+            <h2>AI Tools & Generators</h2>
+        </div>
+        <div class="tools-grid">
+            <!-- AI Image Caption -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>AI Image Caption</h3>
+                    <p>Generate descriptive captions for your images automatically</p>
+                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            
+            <!-- AI Mind Test -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>AI Mind Test</h3>
+                    <p>Discover your cognitive strengths with AI analysis</p>
+                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            
+            <!-- AI Power Text Re Writer -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-pen-alt"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>AI Power Text Re Writer</h3>
+                    <p>Rephrase content while maintaining original meaning</p>
+                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            
+            <!-- ASCII Art Generator -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-font"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>ASCII Art Generator</h3>
+                    <p>Convert images to creative text-based art</p>
+                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            
+            <!-- Color Palette Generator -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>Color Palette Generator</h3>
+                    <p>Create harmonious color schemes from images</p>
+                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            
+            <!-- Password Generator -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>Password Generator</h3>
+                    <p>Create strong, secure passwords instantly</p>
+                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            
+            <!-- QR Code Generator -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>QR Code Generator</h3>
+                    <p>Create custom QR codes for URLs, text, and more</p>
+                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            
+            <!-- Binary Clock -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>Binary Clock</h3>
+                    <p>Display time in a unique binary format</p>
+                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            
+            <!-- AI WikiChat -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>AI WikiChat</h3>
+                    <p>Get instant answers from Wikipedia with AI</p>
+                    <span class="tool-link">Use Tool <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+        </div>
     </div>
 
     <!-- Features Section -->
-    <div class="container">
+    <div class="container" id="features">
         <section class="features">
             <div class="section-title">
                 <h2>Why Choose Streamix Tools?</h2>
@@ -721,6 +880,30 @@
                     <h3>Cloud Based</h3>
                     <p>No installation required - access tools from any device</p>
                 </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock-open"></i>
+                    </div>
+                    <h3>No Registration</h3>
+                    <p>Start using tools immediately without signing up</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Continuous Updates</h3>
+                    <p>We regularly add new features and improvements</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>User Support</h3>
+                    <p>Dedicated help when you need it</p>
+                </div>
             </div>
         </section>
     </div>
@@ -731,7 +914,27 @@
             <div class="footer-grid">
                 <div class="footer-column">
                     <h3>Streamix Tools</h3>
-                    <p>Your all-in-one solution for PDF and image processing. Fast, secure, and easy to use tools for all your document needs.</p>
+                    <p>Your all-in-one solution for PDF, image processing, and AI tools. Fast, secure, and completely free to use.</p>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-user"></i>
+                            <span>Samar Jeet Jamwal</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 93179 50702</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>samarjeetjamwal@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Manali, Himachal Pradesh, India</span>
+                        </div>
+                    </div>
+                    
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -741,39 +944,18 @@
                 </div>
                 
                 <div class="footer-column">
-                    <h3>PDF Tools</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Merge PDF</a></li>
-                        <li><a href="#">Split PDF</a></li>
-                        <li><a href="#">Compress PDF</a></li>
-                        <li><a href="#">PDF to Word</a></li>
-                        <li><a href="#">PDF to PowerPoint</a></li>
-                        <li><a href="#">PDF to Excel</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Image Tools</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Image Compress</a></li>
-                        <li><a href="#">Image Enhancer</a></li>
-                        <li><a href="#">JPG to PDF</a></li>
-                        <li><a href="#">PDF to JPG</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
                     <h3>Company</h3>
                     <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2023 Streamix Tools. All rights reserved.</p>
+                <p>&copy; 2023 Streamix Tools. All rights reserved. Created by Samar Jeet Jamwal</p>
             </div>
         </div>
     </footer>
@@ -803,29 +985,37 @@
             // Stats counter animation
             const stats = document.querySelectorAll('.stat-number');
             stats.forEach(stat => {
-                const target = +stat.innerText.replace('+', '');
-                const duration = 2000;
-                const step = target / (duration / 16);
+                const originalText = stat.innerText;
+                const target = parseFloat(originalText.replace(/[^\d.]/g, ''));
+                const isPercentage = originalText.includes('%');
+                const hasPlus = originalText.includes('+');
+                const isStar = originalText.includes('★');
+                
+                stat.innerText = '0' + (isPercentage ? '%' : '') + (hasPlus ? '+' : '') + (isStar ? '★' : '');
                 
                 let count = 0;
+                const increment = target / 50;
+                
                 const updateCount = () => {
-                    count += step;
+                    count += increment;
                     if (count < target) {
-                        stat.innerText = Math.ceil(count) + (stat.innerText.includes('+') ? '+' : '');
+                        let displayValue = Math.ceil(count);
+                        if (target < 1) displayValue = count.toFixed(1);
+                        stat.innerText = displayValue + (isPercentage ? '%' : '') + (hasPlus ? '+' : '') + (isStar ? '★' : '');
                         requestAnimationFrame(updateCount);
                     } else {
-                        stat.innerText = target + (stat.innerText.includes('+') ? '+' : '');
+                        stat.innerText = originalText;
                     }
                 };
                 
-                const observer = new IntersectionObserver((entries) => {
+                const statObserver = new IntersectionObserver((entries) => {
                     if (entries[0].isIntersecting) {
                         updateCount();
-                        observer.disconnect();
+                        statObserver.disconnect();
                     }
                 });
                 
-                observer.observe(stat);
+                statObserver.observe(stat);
             });
         });
     </script>
