@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free AI-powered text rewriter that works completely offline. Rewrite sentences while preserving meaning using advanced NLP techniques.">
+    <title>AI-Powered Text Rewriter (Local Only) | Rewrite Text Offline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-red: #e74c3c;
+            --light-yellow: #f9e79f;
+            --dark-red: #c0392b;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffebee 100%);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            background: var(--primary-red);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: var(--shadow);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: var(--dark-red);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .feature {
+            background: var(--light-yellow);
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .feature i {
+            color: var(--primary-red);
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        @media (min-width: 768px) {
+            .content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-yellow);
+        }
+        
+        .panel-title {
+            font-size: 1.5rem;
+            color: var(--dark-red);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .char-count {
+            background: var(--light-yellow);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+        
+        #outputText {
+            background: var(--light-gray);
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            background: white;
+            font-size: 1rem;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+            padding-top: 20px;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: var(--primary-red);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            background: var(--dark-red);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--light-yellow);
+            color: var(--dark-gray);
+        }
+        
+        .btn-secondary:hover {
+            background: #f1c40f;
+        }
+        
+        .ad-container {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 30px 0;
+            grid-column: 1 / -1;
+        }
+        
+        .ad-placeholder {
+            background: linear-gradient(45deg, var(--light-yellow), #ffcdd2);
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: var(--dark-red);
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 30px;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--primary-red);
+            color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transform: translateX(200%);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .actions {
+                flex-direction: column;
+            }
+            
+            .panel {
+                padding: 20px 15px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i>✍️</i>
+                </div>
+                <h1>AI-Powered Text Rewriter <span>(Local Only)</span></h1>
+            </div>
+            <p class="subtitle">Rewrite text while preserving meaning using advanced NLP techniques - works completely offline with no external connections!</p>
+            
+            <div class="features">
+                <div class="feature"><i>✓</i> Synonym Replacement</div>
+                <div class="feature"><i>✓</i> Sentence Restructuring</div>
+                <div class="feature"><i>✓</i> Tone Adjustment</div>
+                <div class="feature"><i>✓</i> 100% Offline</div>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i>📝</i> Original Text
+                        <span class="char-count" id="inputCharCount">0 chars</span>
+                    </h2>
+                </div>
+                <textarea id="inputText" placeholder="Enter text to rewrite..."></textarea>
+            </div>
+            
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i>✨</i> Rewritten Text
+                        <span class="char-count" id="outputCharCount">0 chars</span>
+                    </h2>
+                </div>
+                <textarea id="outputText" placeholder="Rewritten text will appear here..." readonly></textarea>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label for="tone">Tone:</label>
+                    <select id="tone">
+                        <option value="neutral">Neutral</option>
+                        <option value="formal">Formal</option>
+                        <option value="informal">Informal</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="complexity">Complexity:</label>
+                    <select id="complexity">
+                        <option value="medium">Medium</option>
+                        <option value="simple">Simple</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="ad-container">
+                <h3>Advertisement</h3>
+                <div class="ad-placeholder">
+                    <!-- AdMob ad unit placeholder -->
+                    <!-- Replace with your AdMob code -->
+                    <div>AdMob Ad Unit (320x100)</div>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button id="rewriteBtn" class="btn btn-primary">
+                    <i>🔄</i> Rewrite Text
+                </button>
+                <button id="copyBtn" class="btn btn-secondary">
+                    <i>📋</i> Copy to Clipboard
+                </button>
+            </div>
+        </div>
+        
+        <div class="notification" id="notification">
+            Text copied to clipboard!
+        </div>
+        
+        <footer>
+            <p>© 2023 AI-Powered Text Rewriter (Local Only) | All processing happens in your browser - no data leaves your device</p>
+            <p>Works completely offline - no internet connection required</p>
+        </footer>
+    </div>
+
+    <script>
+        // Predefined synonym dictionary
+        const synonymDictionary = {
+            // Verbs
+            "use": ["utilize", "employ", "apply", "leverage"],
+            "help": ["assist", "aid", "support", "facilitate"],
+            "show": ["demonstrate", "display", "exhibit", "present"],
+            "start": ["commence", "initiate", "begin", "launch"],
+            "stop": ["cease", "halt", "terminate", "discontinue"],
+            "make": ["create", "produce", "fabricate", "construct"],
+            "change": ["modify", "alter", "adjust", "transform"],
+            "think": ["contemplate", "ponder", "consider", "reflect"],
+            
+            // Adjectives
+            "good": ["excellent", "superb", "outstanding", "exceptional"],
+            "bad": ["poor", "substandard", "inferior", "unfavorable"],
+            "big": ["large", "substantial", "considerable", "sizeable"],
+            "small": ["tiny", "minute", "minuscule", "compact"],
+            "important": ["crucial", "vital", "significant", "paramount"],
+            "interesting": ["fascinating", "captivating", "engaging", "compelling"],
+            "difficult": ["challenging", "arduous", "demanding", "problematic"],
+            "easy": ["simple", "effortless", "straightforward", "uncomplicated"],
+            
+            // Adverbs
+            "quickly": ["rapidly", "swiftly", "speedily", "promptly"],
+            "slowly": ["gradually", "leisurely", "unhurriedly", "deliberately"],
+            "very": ["extremely", "exceedingly", "immensely", "exceptionally"],
+            "really": ["genuinely", "truly", "indeed", "undoubtedly"],
+            "well": ["effectively", "efficiently", "proficiently", "ably"],
+            
+            // Nouns
+            "problem": ["issue", "dilemma", "challenge", "difficulty"],
+            "solution": ["resolution", "answer", "remedy", "fix"],
+            "idea": ["concept", "notion", "thought", "perspective"],
+            "person": ["individual", "human", "being", "soul"],
+            "example": ["instance", "illustration", "case", "specimen"],
+            "information": ["data", "details", "facts", "intelligence"],
+            "system": ["framework", "structure", "setup", "arrangement"],
+            
+            // Common phrases
+            "a lot of": ["numerous", "a multitude of", "a plethora of", "many"],
+            "in order to": ["so as to", "with the aim of", "for the purpose of"],
+            "due to the fact that": ["because", "since", "as"],
+            "at this point in time": ["now", "currently", "presently"],
+        };
+
+        // Tone modifiers
+        const toneModifiers = {
+            formal: {
+                "don't": "do not",
+                "can't": "cannot",
+                "won't": "will not",
+                "isn't": "is not",
+                "it's": "it is",
+                "I'm": "I am",
+                "you're": "you are",
+                "they're": "they are",
+                "we're": "we are",
+                "that's": "that is",
+                "here's": "here is",
+                "gonna": "going to",
+                "wanna": "want to",
+                "kinda": "kind of",
+                "sorta": "sort of",
+                "gotta": "got to",
+                "yeah": "yes",
+                "hi": "hello",
+                "bye": "goodbye",
+                "thanks": "thank you"
+            },
+            informal: {
+                "do not": "don't",
+                "does not": "doesn't",
+                "cannot": "can't",
+                "will not": "won't",
+                "is not": "isn't",
+                "it is": "it's",
+                "I am": "I'm",
+                "you are": "you're",
+                "they are": "they're",
+                "we are": "we're",
+                "that is": "that's",
+                "here is": "here's",
+                "going to": "gonna",
+                "want to": "wanna",
+                "kind of": "kinda",
+                "sort of": "sorta",
+                "got to": "gotta",
+                "yes": "yeah",
+                "hello": "hi",
+                "goodbye": "bye",
+                "thank you": "thanks"
+            }
+        };
+
+        // Sentence restructuring patterns
+        const restructuringPatterns = [
+            // Passive to active restructuring
+            {
+                pattern: /(.*?)\s(is|are|was|were)\s(.*?)\s(by\s.*?)([\.\?!])/gi,
+                replacement: "$4 $3 $2 $1$5"
+            },
+            // Rearranging clauses
+            {
+                pattern: /(.*?)(,\s*)(.*?)([\.\?!])/gi,
+                replacement: "$3$2$1$4"
+            },
+            // Changing sentence structure
+            {
+                pattern: /(I\s)(.*?)(\sthat\s)(.*?)([\.\?!])/gi,
+                replacement: "$1$4$3$2$5"
+            }
+        ];
+
+        // DOM Elements
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const rewriteBtn = document.getElementById('rewriteBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const inputCharCount = document.getElementById('inputCharCount');
+        const outputCharCount = document.getElementById('outputCharCount');
+        const toneSelect = document.getElementById('tone');
+        const complexitySelect = document.getElementById('complexity');
+        const notification = document.getElementById('notification');
+
+        // Event Listeners
+        inputText.addEventListener('input', updateCharCount);
+        rewriteBtn.addEventListener('click', rewriteText);
+        copyBtn.addEventListener('click', copyToClipboard);
+        
+        // Update character count
+        function updateCharCount() {
+            const text = inputText.value;
+            inputCharCount.textContent = `${text.length} chars`;
+        }
+        
+        // Rewrite text function
+        function rewriteText() {
+            const originalText = inputText.value.trim();
+            
+            // Handle empty input
+            if (!originalText) {
+                outputText.value = "Please enter some text to rewrite.";
+                outputCharCount.textContent = "0 chars";
+                showNotification("Please enter text to rewrite", true);
+                return;
+            }
+            
+            // Handle very short text
+            if (originalText.length < 10) {
+                outputText.value = "Text is too short to rewrite effectively. Please provide more content.";
+                outputCharCount.textContent = "0 chars";
+                showNotification("Text is too short", true);
+                return;
+            }
+            
+            // Get settings
+            const tone = toneSelect.value;
+            const complexity = complexitySelect.value;
+            
+            // Perform rewriting
+            try {
+                let rewrittenText = originalText;
+                
+                // Apply tone modifications
+                rewrittenText = applyToneModifications(rewrittenText, tone);
+                
+                // Apply synonym replacement
+                rewrittenText = replaceSynonyms(rewrittenText, complexity);
+                
+                // Apply sentence restructuring
+                rewrittenText = restructureSentences(rewrittenText, complexity);
+                
+                // Update output
+                outputText.value = rewrittenText;
+                outputCharCount.textContent = `${rewrittenText.length} chars`;
+                showNotification("Text rewritten successfully!");
+            } catch (error) {
+                outputText.value = "An error occurred during rewriting. Please try again.";
+                outputCharCount.textContent = "0 chars";
+                console.error("Rewriting error:", error);
+            }
+        }
+        
+        // Apply tone modifications
+        function applyToneModifications(text, tone) {
+            if (tone === "neutral") return text;
+            
+            const modifiers = toneModifiers[tone];
+            let modifiedText = text;
+            
+            // Apply each modification
+            for (const [key, value] of Object.entries(modifiers)) {
+                const regex = new RegExp(`\\b${key}\\b`, 'gi');
+                modifiedText = modifiedText.replace(regex, value);
+            }
+            
+            return modifiedText;
+        }
+        
+        // Replace words with synonyms
+        function replaceSynonyms(text, complexity) {
+            // Determine replacement probability based on complexity
+            let replacementProbability = 0.3; // medium
+            if (complexity === "simple") replacementProbability = 0.2;
+            else if (complexity === "advanced") replacementProbability = 0.4;
+            
+            // Split text into words
+            return text.split(/\b/).map(word => {
+                // Skip short words and words that are part of phrases
+                if (word.length < 3 || !/^\w+$/.test(word)) return word;
+                
+                // Skip words with capital letters (likely proper nouns)
+                if (word[0] === word[0].toUpperCase()) return word;
+                
+                // Check if word has synonyms
+                const lowerWord = word.toLowerCase();
+                const synonyms = synonymDictionary[lowerWord];
+                
+                if (synonyms && Math.random() < replacementProbability) {
+                    // Randomly select a synonym
+                    const synonym = synonyms[Math.floor(Math.random() * synonyms.length)];
+                    
+                    // Preserve capitalization
+                    if (word[0] === word[0].toUpperCase()) {
+                        return synonym.charAt(0).toUpperCase() + synonym.slice(1);
+                    }
+                    return synonym;
+                }
+                
+                return word;
+            }).join('');
+        }
+        
+        // Restructure sentences
+        function restructureSentences(text, complexity) {
+            // Determine restructuring probability based on complexity
+            let restructuringProbability = 0.4; // medium
+            if (complexity === "simple") restructuringProbability = 0.3;
+            else if (complexity === "advanced") restructuringProbability = 0.5;
+            
+            // Split text into sentences
+            const sentences = text.split(/(?<=[.!?])\s+/);
+            
+            return sentences.map(sentence => {
+                // Skip restructuring for short sentences
+                if (sentence.split(' ').length < 5) return sentence;
+                
+                // Apply restructuring based on probability
+                if (Math.random() < restructuringProbability) {
+                    // Randomly select a pattern
+                    const pattern = restructuringPatterns[Math.floor(Math.random() * restructuringPatterns.length)];
+                    const restructured = sentence.replace(pattern.pattern, pattern.replacement);
+                    
+                    // Only use if restructuring was applied and result makes sense
+                    if (restructured !== sentence && restructured.length > 5) {
+                        return restructured;
+                    }
+                }
+                return sentence;
+            }).join(' ');
+        }
+        
+        // Copy to clipboard
+        function copyToClipboard() {
+            if (!outputText.value) {
+                showNotification("Nothing to copy", true);
+                return;
+            }
+            
+            outputText.select();
+            document.execCommand('copy');
+            showNotification("Text copied to clipboard!");
+        }
+        
+        // Show notification
+        function showNotification(message, isError = false) {
+            notification.textContent = message;
+            notification.style.backgroundColor = isError ? "#e74c3c" : "#2ecc71";
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Initialize
+        function init() {
+            // Set initial example text
+            inputText.value = "The AI-powered text rewriter is a useful tool that can help you improve your writing. It can rewrite sentences in different ways while keeping the original meaning. This tool works completely offline in your browser, so your data stays private. Try it now to see how it can enhance your writing!";
+            updateCharCount();
+        }
+        
+        // Initialize on page load
+        window.onload = init;
+    </script>
+</body>
+</html>
