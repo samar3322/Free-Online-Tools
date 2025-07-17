@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Upload an image to extract top 5 dominant colors using AI-powered Color Palette Generator. Fully responsive, red and yellow theme, AdMob ready."/>
+  <meta name="keywords" content="Color Palette Generator, Extract Colors from Image, AI Palette Creator, Canvas Color Extractor, AdMob Monetization Tool"/>
+  <meta name="author" content="YourName"/>
+
+  <title>AI Color Palette Generator from Image</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff8dc;
+      color: #800000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      color: #d32f2f;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+    }
+
+    input[type="file"] {
+      margin-top: 20px;
+      padding: 10px;
+      border: 2px solid #d32f2f;
+      background: #fff3cd;
+      color: #d32f2f;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #preview {
+      margin-top: 20px;
+      max-width: 100%;
+      height: auto;
+      border: 4px dashed #d32f2f;
+      padding: 10px;
+      background: #fff0e1;
+    }
+
+    #palette {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .color-box {
+      width: 100px;
+      height: 100px;
+      border: 3px solid #800000;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 5px;
+      color: #000;
+    }
+
+    canvas {
+      display: none;
+    }
+
+    /* Ad Space Styling */
+    .ad-space {
+      width: 100%;
+      height: 100px;
+      margin: 30px 0;
+      background: #fceabb;
+      border: 2px dashed #f44336;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f44336;
+      font-weight: bold;
+    }
+
+    @media screen and (max-width: 600px) {
+      .color-box {
+        width: 80px;
+        height: 80px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🎨 AI Color Palette Generator</h1>
+    <p>Upload an image and see your top 5 dominant colors magically appear.</p>
+
+    <input type="file" id="imageInput" accept="image/*">
+    <img id="preview" src="#" alt="Uploaded Image Preview" style="display: none;" />
+    <canvas id="canvas"></canvas>
+
+    <div id="palette"></div>
+
+    <!-- AdMob Placeholder -->
+    <div class="ad-space">
+      🚀 AdMob Ad Space — Paste your Ad Unit Code here
+    </div>
+  </div>
+
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const preview = document.getElementById('preview');
+    const canvas = document.getElementById('canvas');
+    const palette = document.getElementById('palette');
+
+    imageInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+
+          preview.onload = function () {
+            const ctx = canvas.getContext('2d');
+            canvas.width = preview.width;
+            canvas.height = preview.height;
+            ctx.drawImage(preview, 0, 0, canvas.width, canvas.height);
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const colors = getDominantColors(imageData.data);
+            displayPalette(colors);
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function getDominantColors(data) {
+      const colorMap = {};
+      for (let i = 0; i < data.length; i += 4 * 10) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        const key = `${Math.round(r/10)*10},${Math.round(g/10)*10},${Math.round(b/10)*10}`;
+        colorMap[key] = (colorMap[key] || 0) + 1;
+      }
+
+      const sorted = Object.entries(colorMap).sort((a, b) => b[1] - a[1]);
+      return sorted.slice(0, 5).map(entry => entry[0]);
+    }
+
+    function displayPalette(colors) {
+      palette.innerHTML = '';
+      colors.forEach(color => {
+        const box = document.createElement('div');
+        box.className = 'color-box';
+        box.style.backgroundColor = `rgb(${color})`;
+        box.innerText = `rgb(${color})`;
+        palette.appendChild(box);
+      });
+    }
+  </script>
+
+  <!-- Google AdMob Integration Example -->
+  <!-- Replace 'ca-app-pub-XXXX/XXXX' with your real Ad Unit ID -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-app-pub-XXXXXX/XXXXXX"
+       data-ad-slot="XXXXXX"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  -->
+
+</body>
+</html>
