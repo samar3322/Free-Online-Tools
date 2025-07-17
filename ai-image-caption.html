@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Upload an image and get a funny caption instantly without real AI. Perfect for laughs and social sharing!" />
+  <meta name="keywords" content="image caption generator, AI, meme captions, funny captions, image humor" />
+  <meta name="Samar Jeet Jamwal" content="Streamix Tools" />
+  <title>AI Image Caption Generator</title>
+  <style>
+    :root {
+      --primary-color: #d32f2f;
+      --secondary-color: #fff3e0;
+      --accent-color: #ffe0b2;
+      --text-color: #333;
+      --bg-color: #fff8e1;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    header h1 {
+      color: var(--primary-color);
+      font-size: 2rem;
+    }
+
+    .caption-generator {
+      background: var(--accent-color);
+      border: 2px solid var(--primary-color);
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .upload-area {
+      border: 2px dashed var(--primary-color);
+      border-radius: 10px;
+      padding: 20px;
+      cursor: pointer;
+      background: var(--secondary-color);
+      transition: background 0.3s ease, transform 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80px;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    .upload-area:hover {
+      background: var(--accent-color);
+      transform: scale(1.02);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    #preview {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    #preview img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .output {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #bf360c;
+      min-height: 40px;
+      line-height: 1.5;
+    }
+
+    .ad-space {
+      margin-top: 30px;
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      min-height: 100px;
+      background: var(--primary-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      .caption-generator {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>AI Image Caption Generator</h1>
+    <p>Upload an image and get a hilarious caption instantly!</p>
+  </header>
+
+  <main class="caption-generator" role="main">
+    <label class="upload-area" for="imageUpload" aria-label="Upload an image">
+      📎 Choose an Image
+    </label>
+    <input type="file" id="imageUpload" accept="image/*" aria-hidden="true">
+
+    <div id="preview" aria-live="polite"></div>
+    <div class="output" id="captionOutput">Your funny caption will appear here...</div>
+  </main>
+
+  <!-- Google AdMob Advertisement -->
+  <div class="ad-space">
+    <!-- Replace data-ad-client and data-ad-slot with your own -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js "></script>
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:320px;height:100px"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="XXXXXXXXXX"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+  <script>
+    const templates = [
+      "This looks like a {keyword}... but where's the pizza?",
+      "Me trying to understand this {keyword}...",
+      "Plot twist: It was just a {keyword} all along.",
+      "Caption unavailable. {keyword} detected.",
+      "I asked for a {keyword}, and this is what I got.",
+      "That moment when you realize it's just a {keyword}.",
+      "The mystery of the century: What is this {keyword}?",
+      "When life gives you {keyword}, make memes.",
+      "This {keyword} deserves a standing ovation.",
+      "This image is giving me all the vibes.",
+      "This is not a {keyword}, this is art.",
+      "I think this {keyword} needs therapy.",
+      "When you're a {keyword} and you know it.",
+      "This image is the drama we all needed.",
+      "I came here for a {keyword}, not this.",
+      "This image speaks 10 languages... none of them English.",
+      "I don’t need therapy, I just need this {keyword} in my life.",
+      "This image is just chaos and I love it.",
+      "This {keyword} is giving me life.",
+      "This is the kind of {keyword} that changes lives.",
+      "If you see {keyword}, run.",
+      "Why so serious? It's just a {keyword}.",
+      "This is how the {keyword} wars begin.",
+      "This image is just goals.",
+      "This {keyword} is the main character.",
+      "I asked for a sign, and this {keyword} appeared.",
+      "I'm not crying, my {keyword} is just leaking.",
+      "This {keyword} has a 5-star personality.",
+      "My reaction to this {keyword}: 😂",
+      "I came. I saw. I {keyword}.",
+      "I don't always {keyword}, but when I do...",
+      "This is the kind of {keyword} that breaks the internet.",
+      "This image is the reason why I can't stop laughing.",
+      "This is the kind of {keyword} that makes you say 'WTF?'",
+      "This image is giving me major {keyword} energy.",
+      "This image is the kind of thing legends are made of.",
+      "This {keyword} is the GOAT.",
+      "This image is the plot twist we never saw coming.",
+      "I don’t care what it is, I just want more of it.",
+      "When you're supposed to be working but you're just admiring this {keyword}.",
+      "This image is the kind of {keyword} that starts a movement.",
+      "This image is just pure gold.",
+      "This is the kind of {keyword} that deserves its own movie.",
+      "This image is giving me all the feels.",
+      "This is the {keyword} of legends.",
+      "This image is too iconic to handle.",
+      "I don’t need a caption, I just need this {keyword} in my life.",
+      "This image is the kind of thing legends are made of.",
+      "This {keyword} is giving me life and I don’t even care.",
+      "When you're a {keyword} and you're ready for your close-up.",
+      "This image is giving me all the feels.",
+      "This image is the drama we all needed.",
+      "This is the kind of {keyword} that gets you banned from dinner parties.",
+      "This image is the reason why I can't have nice things.",
+      "This is the kind of {keyword} that makes headlines.",
+      "I’m not weird, I’m just {keyword}-adjacent.",
+      "This image is the kind of thing legends are made of.",
+      "This image is just vibes and chaos.",
+      "This is the kind of {keyword} that makes you question everything."
+    ];
+
+    const keywords = [
+      "cat", "dog", "pizza", "laptop", "tree", "car", "coffee", "shoe", "hat", "phone",
+      "sunset", "beach", "mountain", "cake", "spider", "alien", "robot", "ghost", "spaceship",
+      "burger", "donut", "flower", "umbrella", "book", "guitar", "telescope", "lamp", "chair",
+      "window", "door", "mirror", "clock", "keyboard", "mouse", "cup", "plate", "fork", "knife",
+      "spoon", "glass", "rug", "painting", "sofa", "television", "remote", "pillow",
+      "sock", "jacket", "pants", "shirt", "cap", "helmet", "watch", "ring", "necklace"
+    ];
+
+    function generateCaption() {
+      const keyword = keywords[Math.floor(Math.random() * keywords.length)];
+      const template = templates[Math.floor(Math.random() * templates.length)];
+      return template.replace("{keyword}", keyword);
+    }
+
+    document.getElementById("imageUpload").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const preview = document.getElementById("preview");
+          preview.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image Preview" />`;
+          document.getElementById("captionOutput").textContent = generateCaption();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please upload a valid image file.");
+      }
+    });
+  </script>
+
+</body>
+</html>
