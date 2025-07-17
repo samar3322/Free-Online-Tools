@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Generate ASCII Art from text or images with this responsive and SEO-optimized ASCII Art Generator.">
+  <meta name="keywords" content="ASCII Art Generator, Text to ASCII, Image to ASCII, Monospace Art, SEO ASCII Art Tool">
+  <meta name="author" content="ASCII.AI Generator">
+  <title>ASCII Art Generator – Text & Image to ASCII</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: monospace;
+      background-color: #fff8dc;
+      color: #8b0000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #8b0000;
+      color: #fff8dc;
+      padding: 1rem;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    main {
+      flex: 1;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    textarea, input[type="file"] {
+      width: 100%;
+      padding: 0.5rem;
+      font-family: monospace;
+      background: #fff0c0;
+      color: #8b0000;
+      border: 1px solid #8b0000;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #8b0000;
+      color: #fff8dc;
+      padding: 0.7rem;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #a00000;
+    }
+
+    #ascii-output {
+      background: #fff0c0;
+      white-space: pre;
+      overflow-x: auto;
+      padding: 1rem;
+      border: 1px solid #8b0000;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .ad-section {
+      background: #ffeccc;
+      border: 1px dashed #8b0000;
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      background: #8b0000;
+      color: #fff8dc;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>ASCII Art Generator</header>
+
+  <main>
+    <label for="text">Enter Text:</label>
+    <textarea id="text" rows="3" placeholder="Type something cool..."></textarea>
+    <button onclick="generateASCII()">Convert Text to ASCII</button>
+
+    <label for="image">Upload Image:</label>
+    <input type="file" id="image" accept="image/*" />
+    <button onclick="convertImageToASCII()">Convert Image to ASCII</button>
+
+    <div class="ad-section">[AdMob Placeholder – Insert Your Ad Unit Here]</div>
+
+    <pre id="ascii-output">Your ASCII art will appear here...</pre>
+
+    <div class="ad-section">[AdMob Placeholder – Insert Your Ad Unit Here]</div>
+  </main>
+
+  <footer>
+    &copy; 2025 ASCII AI Generator. All Rights Reserved.
+  </footer>
+
+  <script>
+    function generateASCII() {
+      const input = document.getElementById("text").value;
+      let asciiArt = "";
+      for (let i = 0; i < input.length; i++) {
+        const charCode = input.charCodeAt(i);
+        asciiArt += input[i] + " ";
+        if ((i + 1) % 20 === 0) asciiArt += "\n";
+      }
+      document.getElementById("ascii-output").textContent = asciiArt;
+    }
+
+    function convertImageToASCII() {
+      const fileInput = document.getElementById("image");
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      const output = document.getElementById("ascii-output");
+      const asciiChars = "@#8&$%*o!;:,. ";
+
+      if (fileInput.files.length === 0) return alert("Upload an image first!");
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          const width = 100;
+          const scale = width / img.width;
+          const height = img.height * scale * 0.5;
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const imageData = ctx.getImageData(0, 0, width, height);
+          let ascii = "";
+          for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+              const offset = (y * width + x) * 4;
+              const r = imageData.data[offset];
+              const g = imageData.data[offset + 1];
+              const b = imageData.data[offset + 2];
+              const brightness = (r + g + b) / 3;
+              const charIndex = Math.floor((brightness / 255) * (asciiChars.length - 1));
+              ascii += asciiChars[charIndex];
+            }
+            ascii += "\n";
+          }
+          output.textContent = ascii;
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  </script>
+
+  <!-- Example Google AdMob (replace with actual code) -->
+  <!-- Replace with your AdMob ad script -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+       data-ad-slot="xxxxxxxxxx"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  -->
+
+</body>
+</html>
