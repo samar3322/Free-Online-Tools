@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A fully responsive browser-based binary clock that toggles between decimal and binary display modes.">
+    <meta name="keywords" content="binary clock, digital clock, responsive design, AdMob, SEO, JavaScript">
+    <title>Binary Clock - Decimal & Binary Toggle</title>
+    <!-- Google AdMob meta (place your Ad Unit IDs in the script below) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" crossorigin="anonymous"></script>
+    <style>
+        /* Reset & Basic Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ff4d4d; /* Red theme */
+            color: #333;
+            font-family: Arial, sans-serif;
+            padding: 1rem;
+        }
+        h1 { margin-bottom: 1rem; color: #fff; }
+        .clock-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .bit {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.5rem;
+            background-color: #ffe680; /* Light yellow theme */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+        .bit.on { background-color: #333; color: #ffe680; }
+        .controls {
+            display: flex;
+            gap: 1rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            background-color: #ffe680;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+        button:hover { background-color: #ffd24d; }
+        /* Ad slot styling */
+        .ad-slot {
+            margin: 1rem 0;
+            width: 100%;
+            max-width: 728px;
+            height: auto;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        @media (max-width: 600px) {
+            .bit { width: 2rem; height: 2rem; font-size: 1rem; }
+            .clock-container { grid-template-columns: repeat(6, auto); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Binary Clock</h1>
+    <!-- AdMob Slot: Top -->
+    <div class="ad-slot" id="ad-top">
+        <!--
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXX"
+             data-ad-slot="YYYYYYYYYYY"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        -->
+    </div>
+
+    <div class="clock-container" id="clock">
+        <!-- Bits will be injected here -->
+    </div>
+    <div class="controls">
+        <button id="toggle">Show Decimal</button>
+    </div>
+
+    <!-- AdMob Slot: Bottom -->
+    <div class="ad-slot" id="ad-bottom">
+        <!-- Same as above, insert AdMob code -->
+    </div>
+
+    <script defer>
+        (() => {
+            const clockEl = document.getElementById('clock');
+            const toggleBtn = document.getElementById('toggle');
+            let showBinary = true;
+
+            // Initialize bits
+            const bits = [];
+            for (let i = 0; i < 6; i++) {
+                const bitEl = document.createElement('div');
+                bitEl.classList.add('bit');
+                clockEl.appendChild(bitEl);
+                bits.push(bitEl);
+            }
+
+            function updateClock() {
+                const now = new Date();
+                const values = [now.getHours(), now.getMinutes(), now.getSeconds()];
+                if (showBinary) {
+                    // Convert each to 2-bit hour + 3-bit minute + 3-bit second? Actually display 6 bits: HHMMSS?
+                    const bin = values.map(v => v.toString(2).padStart(6, '0')).join('');
+                    bits.forEach((b, i) => {
+                        const bit = bin.charAt(i);
+                        b.textContent = '';
+                        b.classList.toggle('on', bit === '1');
+                    });
+                } else {
+                    // Show decimal digits: H M S across 6 bits
+                    const dec = values.map(v => String(v).padStart(2, '0')).join('');
+                    bits.forEach((b, i) => {
+                        const digit = dec.charAt(i);
+                        b.textContent = digit;
+                        b.classList.remove('on');
+                    });
+                }
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                showBinary = !showBinary;
+                toggleBtn.textContent = showBinary ? 'Show Decimal' : 'Show Binary';
+                updateClock();
+            });
+
+            setInterval(updateClock, 1000);
+            updateClock();
+
+        })();
+    </script>
+</body>
+</html>
