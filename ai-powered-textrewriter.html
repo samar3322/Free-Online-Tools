@@ -3,16 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free AI-powered text rewriter that works completely offline. Rewrite sentences while preserving meaning using advanced NLP techniques.">
-    <title>AI-Powered Text Rewriter (Local Only) | Rewrite Text Offline</title>
+    <title>AI Text Rewriter & Grammar Corrector</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         :root {
             --primary-red: #e74c3c;
             --light-yellow: #f9e79f;
@@ -20,6 +12,15 @@
             --light-gray: #f5f5f5;
             --dark-gray: #333;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -33,6 +34,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding-bottom: 40px;
         }
         
         header {
@@ -43,36 +45,37 @@
         
         .logo {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
             gap: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
         
         .logo-icon {
-            background: var(--primary-red);
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
             color: white;
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 36px;
             box-shadow: var(--shadow);
         }
         
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: var(--dark-red);
             margin-bottom: 10px;
         }
         
         .subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 1.3rem;
+            color: #5a5a5a;
+            max-width: 700px;
+            margin: 0 auto 25px;
+            line-height: 1.7;
         }
         
         .features {
@@ -80,22 +83,30 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 15px;
-            margin: 25px 0;
+            margin: 30px 0;
         }
         
         .feature {
             background: var(--light-yellow);
-            padding: 12px 20px;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+            padding: 12px 25px;
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .feature:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
         
         .feature i {
             color: var(--primary-red);
+            font-size: 1.2rem;
         }
         
         .content {
@@ -104,7 +115,7 @@
             gap: 30px;
         }
         
-        @media (min-width: 768px) {
+        @media (min-width: 992px) {
             .content {
                 grid-template-columns: 1fr 1fr;
             }
@@ -112,200 +123,410 @@
         
         .panel {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: var(--border-radius);
+            padding: 30px;
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .panel:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
         .panel-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 2px solid var(--light-yellow);
         }
         
         .panel-title {
-            font-size: 1.5rem;
-            color: var(--dark-red);
+            font-size: 1.6rem;
+            color: var(--primary-red);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         
         .char-count {
-            background: var(--light-yellow);
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 0.9rem;
+            background: rgba(231, 76, 60, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-red);
         }
         
         textarea {
             width: 100%;
-            min-height: 250px;
-            padding: 15px;
-            border: 2px solid #eee;
+            min-height: 280px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
             border-radius: 10px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             resize: vertical;
-            transition: border-color 0.3s;
+            transition: var(--transition);
+            line-height: 1.7;
         }
         
         textarea:focus {
             outline: none;
             border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
         }
         
         #outputText {
-            background: var(--light-gray);
+            background: #fffaf0;
         }
         
         .controls {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin: 25px 0;
+            gap: 25px;
+            margin: 30px 0;
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
         }
         
         .control-group {
             flex: 1;
-            min-width: 200px;
+            min-width: 250px;
         }
         
         .control-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-red);
         }
         
-        select {
+        select, input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #eee;
+            padding: 14px;
+            border: 2px solid #e9ecef;
             border-radius: 10px;
             background: white;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        select:focus, input:focus {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+            outline: none;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .slider-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary-red);
         }
         
         .actions {
             display: flex;
-            gap: 15px;
-            margin-top: auto;
-            padding-top: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
         }
         
         .btn {
-            padding: 14px 28px;
+            padding: 16px 32px;
             border: none;
             border-radius: 10px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            box-shadow: var(--shadow);
         }
         
         .btn-primary {
-            background: var(--primary-red);
+            background: linear-gradient(to right, var(--primary-red), var(--dark-red));
             color: white;
             flex: 1;
         }
         
         .btn-primary:hover {
-            background: var(--dark-red);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
         }
         
         .btn-secondary {
-            background: var(--light-yellow);
-            color: var(--dark-gray);
+            background: white;
+            color: var(--primary-red);
+            border: 2px solid var(--primary-red);
         }
         
         .btn-secondary:hover {
-            background: #f1c40f;
+            background: rgba(231, 76, 60, 0.05);
+            transform: translateY(-3px);
         }
         
-        .ad-container {
-            background: var(--light-gray);
-            border-radius: 10px;
-            padding: 20px;
+        .btn-tertiary {
+            background: rgba(201, 57, 43, 0.1);
+            color: var(--dark-red);
+        }
+        
+        .btn-tertiary:hover {
+            background: rgba(201, 57, 43, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .stat-card {
             text-align: center;
-            margin: 30px 0;
-            grid-column: 1 / -1;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background: rgba(231, 76, 60, 0.05);
+            flex: 1;
+            min-width: 200px;
         }
         
-        .ad-placeholder {
-            background: linear-gradient(45deg, var(--light-yellow), #ffcdd2);
-            height: 100px;
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #5a5a5a;
+        }
+        
+        .correction-panel {
+            background: rgba(231, 76, 60, 0.05);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .correction-title {
+            font-size: 1.4rem;
+            color: var(--dark-red);
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
+        }
+        
+        .correction-list {
+            list-style: none;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background: white;
             border-radius: 8px;
-            color: var(--dark-red);
+        }
+        
+        .correction-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .correction-item:last-child {
+            border-bottom: none;
+        }
+        
+        .correction-icon {
+            color: var(--primary-red);
             font-weight: bold;
+            min-width: 24px;
+        }
+        
+        .correction-text {
+            flex: 1;
+        }
+        
+        .original-text {
+            text-decoration: line-through;
+            color: #e74c3c;
+        }
+        
+        .corrected-text {
+            color: #27ae60;
+            font-weight: 500;
         }
         
         footer {
             text-align: center;
-            padding: 30px 0;
-            margin-top: 30px;
-            color: #666;
-            border-top: 1px solid #eee;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+            color: #5a5a5a;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 1.1rem;
         }
         
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            background: var(--primary-red);
+            top: 30px;
+            right: 30px;
+            padding: 18px 28px;
+            background: #27ae60;
             color: white;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             transform: translateX(200%);
-            transition: transform 0.3s;
+            transition: transform 0.4s ease, opacity 0.4s;
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+            font-weight: 500;
         }
         
         .notification.show {
             transform: translateX(0);
         }
         
+        .notification.error {
+            background: var(--primary-red);
+        }
+        
+        .notification.warning {
+            background: #f39c12;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(231, 76, 60, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-red);
+            animation: spin 0.8s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        
+        .spinner.active {
+            display: block;
+        }
+        
         /* Responsive design */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            .logo-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 30px;
+            }
+            
+            .panel {
+                padding: 25px;
+            }
+            
+            .btn {
+                padding: 14px 25px;
+                font-size: 1.1rem;
+            }
+        }
+        
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
             }
             
-            .logo-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
+            .subtitle {
+                font-size: 1.1rem;
             }
             
-            .btn {
-                padding: 12px 20px;
-                font-size: 1rem;
+            .panel-title {
+                font-size: 1.4rem;
             }
-        }
-        
-        @media (max-width: 480px) {
+            
+            .control-group {
+                min-width: 100%;
+            }
+            
             .actions {
                 flex-direction: column;
             }
             
-            .panel {
-                padding: 20px 15px;
+            .btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
             }
             
-            .controls {
-                flex-direction: column;
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 26px;
+            }
+            
+            .feature {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .panel {
+                padding: 20px;
+            }
+            
+            textarea {
+                min-height: 220px;
+                padding: 15px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -317,14 +538,15 @@
                 <div class="logo-icon">
                     <i>✍️</i>
                 </div>
-                <h1>AI-Powered Text Rewriter <span>(Local Only)</span></h1>
+                <h1>AI Text Rewriter & Grammar Corrector</h1>
+                <p class="subtitle">Correct spelling, grammar, and punctuation errors while rewriting text - all processing happens in your browser!</p>
             </div>
-            <p class="subtitle">Rewrite text while preserving meaning using advanced NLP techniques - works completely offline with no external connections!</p>
             
             <div class="features">
-                <div class="feature"><i>✓</i> Synonym Replacement</div>
-                <div class="feature"><i>✓</i> Sentence Restructuring</div>
-                <div class="feature"><i>✓</i> Tone Adjustment</div>
+                <div class="feature"><i>✓</i> Grammar Correction</div>
+                <div class="feature"><i>✓</i> Spelling Fixes</div>
+                <div class="feature"><i>✓</i> Punctuation Correction</div>
+                <div class="feature"><i>✓</i> Sentence Rewriting</div>
                 <div class="feature"><i>✓</i> 100% Offline</div>
             </div>
         </header>
@@ -337,180 +559,554 @@
                         <span class="char-count" id="inputCharCount">0 chars</span>
                     </h2>
                 </div>
-                <textarea id="inputText" placeholder="Enter text to rewrite..."></textarea>
+                <textarea id="inputText" placeholder="Enter text to rewrite and correct...">The AI-powered text rewriter is a usefull tool that can help you improve youre writing. It can rewrite sentences in different ways while keeping the original meaning. This tool works completely offline in your browser, so your data stays private. Try it now to see how it can enhanse your writing! you will be amased by it's capabilities.</textarea>
             </div>
             
             <div class="panel">
                 <div class="panel-header">
                     <h2 class="panel-title">
-                        <i>✨</i> Rewritten Text
+                        <i>✨</i> Corrected & Rewritten Text
                         <span class="char-count" id="outputCharCount">0 chars</span>
                     </h2>
                 </div>
-                <textarea id="outputText" placeholder="Rewritten text will appear here..." readonly></textarea>
+                <textarea id="outputText" placeholder="Corrected and rewritten text will appear here..." readonly></textarea>
+                <div class="spinner" id="spinner"></div>
             </div>
             
             <div class="controls">
                 <div class="control-group">
-                    <label for="tone">Tone:</label>
+                    <label for="tone">Writing Tone:</label>
                     <select id="tone">
                         <option value="neutral">Neutral</option>
                         <option value="formal">Formal</option>
                         <option value="informal">Informal</option>
+                        <option value="academic">Academic</option>
                     </select>
                 </div>
                 
                 <div class="control-group">
-                    <label for="complexity">Complexity:</label>
-                    <select id="complexity">
-                        <option value="medium">Medium</option>
-                        <option value="simple">Simple</option>
-                        <option value="advanced">Advanced</option>
+                    <label for="correction-level">Correction Level:</label>
+                    <select id="correction-level">
+                        <option value="normal">Normal</option>
+                        <option value="aggressive">Aggressive</option>
+                        <option value="conservative">Conservative</option>
                     </select>
                 </div>
-            </div>
-            
-            <div class="ad-container">
-                <h3>Advertisement</h3>
-                <div class="ad-placeholder">
-                    <!-- AdMob ad unit placeholder -->
-                    --Advertisement--
-                    <div>AdMob Ad Unit (320x100)</div>
+                
+                <div class="control-group">
+                    <label for="creativity">Creativity Level: <span id="creativityValue">5</span>/10</label>
+                    <div class="slider-container">
+                        <input type="range" id="creativity" min="1" max="10" value="5">
+                        <span class="slider-value" id="creativityValueDisplay">5</span>
+                    </div>
                 </div>
             </div>
             
             <div class="actions">
                 <button id="rewriteBtn" class="btn btn-primary">
-                    <i>🔄</i> Rewrite Text
+                    <i>🔄</i> Rewrite & Correct
                 </button>
                 <button id="copyBtn" class="btn btn-secondary">
                     <i>📋</i> Copy to Clipboard
                 </button>
+                <button id="clearBtn" class="btn btn-tertiary">
+                    <i>🗑️</i> Clear All
+                </button>
+            </div>
+            
+            <div class="correction-panel">
+                <div class="correction-title">
+                    <i>🔍</i> Corrections Applied
+                </div>
+                <ul class="correction-list" id="correctionList">
+                    <li class="correction-item">
+                        <div class="correction-icon">→</div>
+                        <div class="correction-text">
+                            <span class="original-text">usefull</span> 
+                            corrected to 
+                            <span class="corrected-text">useful</span>
+                        </div>
+                    </li>
+                    <li class="correction-item">
+                        <div class="correction-icon">→</div>
+                        <div class="correction-text">
+                            <span class="original-text">youre</span> 
+                            corrected to 
+                            <span class="corrected-text">your</span>
+                        </div>
+                    </li>
+                    <li class="correction-item">
+                        <div class="correction-icon">→</div>
+                        <div class="correction-text">
+                            <span class="original-text">enhance</span> 
+                            corrected to 
+                            <span class="corrected-text">enhance</span>
+                        </div>
+                    </li>
+                    <li class="correction-item">
+                        <div class="correction-icon">→</div>
+                        <div class="correction-text">
+                            <span class="original-text">amased</span> 
+                            corrected to 
+                            <span class="corrected-text">amazed</span>
+                        </div>
+                    </li>
+                    <li class="correction-item">
+                        <div class="correction-icon">→</div>
+                        <div class="correction-text">
+                            <span class="original-text">it's</span> 
+                            corrected to 
+                            <span class="corrected-text">its</span> (possessive)
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="grammarStat">5</div>
+                    <div class="stat-label">Grammar Fixes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="spellingStat">4</div>
+                    <div class="stat-label">Spelling Fixes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="readabilityStat">72</div>
+                    <div class="stat-label">Readability Score</div>
+                </div>
             </div>
         </div>
         
         <div class="notification" id="notification">
-            Text copied to clipboard!
+            <div class="loading"></div>
+            <span>Text processed successfully!</span>
         </div>
         
         <footer>
-            <p>© 2025 AI-Powered Text Rewriter (Local Only), Created by Samar | All processing happens in your browser - no data leaves your device</p>
+            <p>© 2025 AI Text Rewriter & Grammar Corrector | Created with ❤️ by Samar Jeet Jamwal | All processing happens in your browser</p>
             <p>Works completely offline - no internet connection required</p>
         </footer>
     </div>
 
     <script>
-        // Predefined synonym dictionary
-        const synonymDictionary = {
-            // Verbs
-            "use": ["utilize", "employ", "apply", "leverage"],
-            "help": ["assist", "aid", "support", "facilitate"],
-            "show": ["demonstrate", "display", "exhibit", "present"],
-            "start": ["commence", "initiate", "begin", "launch"],
-            "stop": ["cease", "halt", "terminate", "discontinue"],
-            "make": ["create", "produce", "fabricate", "construct"],
-            "change": ["modify", "alter", "adjust", "transform"],
-            "think": ["contemplate", "ponder", "consider", "reflect"],
-            
-            // Adjectives
-            "good": ["excellent", "superb", "outstanding", "exceptional"],
-            "bad": ["poor", "substandard", "inferior", "unfavorable"],
-            "big": ["large", "substantial", "considerable", "sizeable"],
-            "small": ["tiny", "minute", "minuscule", "compact"],
-            "important": ["crucial", "vital", "significant", "paramount"],
-            "interesting": ["fascinating", "captivating", "engaging", "compelling"],
-            "difficult": ["challenging", "arduous", "demanding", "problematic"],
-            "easy": ["simple", "effortless", "straightforward", "uncomplicated"],
-            
-            // Adverbs
-            "quickly": ["rapidly", "swiftly", "speedily", "promptly"],
-            "slowly": ["gradually", "leisurely", "unhurriedly", "deliberately"],
-            "very": ["extremely", "exceedingly", "immensely", "exceptionally"],
-            "really": ["genuinely", "truly", "indeed", "undoubtedly"],
-            "well": ["effectively", "efficiently", "proficiently", "ably"],
-            
-            // Nouns
-            "problem": ["issue", "dilemma", "challenge", "difficulty"],
-            "solution": ["resolution", "answer", "remedy", "fix"],
-            "idea": ["concept", "notion", "thought", "perspective"],
-            "person": ["individual", "human", "being", "soul"],
-            "example": ["instance", "illustration", "case", "specimen"],
-            "information": ["data", "details", "facts", "intelligence"],
-            "system": ["framework", "structure", "setup", "arrangement"],
-            
-            // Common phrases
-            "a lot of": ["numerous", "a multitude of", "a plethora of", "many"],
-            "in order to": ["so as to", "with the aim of", "for the purpose of"],
-            "due to the fact that": ["because", "since", "as"],
-            "at this point in time": ["now", "currently", "presently"],
+        // Enhanced spelling correction dictionary
+        const spellingCorrections = {
+            // Common misspellings
+            "accomodate": "accommodate",
+            "acheive": "achieve",
+            "adress": "address",
+            "alot": "a lot",
+            "aparent": "apparent",
+            "apparant": "apparent",
+            "aquire": "acquire",
+            "arguement": "argument",
+            "assasination": "assassination",
+            "basicly": "basically",
+            "begining": "beginning",
+            "beleive": "believe",
+            "benificial": "beneficial",
+            "buisness": "business",
+            "calender": "calendar",
+            "cemetary": "cemetery",
+            "collaegue": "colleague",
+            "collegue": "colleague",
+            "comming": "coming",
+            "comittee": "committee",
+            "concensus": "consensus",
+            "concious": "conscious",
+            "definately": "definitely",
+            "desireable": "desirable",
+            "develope": "develop",
+            "dilemna": "dilemma",
+            "dissappoint": "disappoint",
+            "embarass": "embarrass",
+            "enviroment": "environment",
+            "existance": "existence",
+            "facist": "fascist",
+            "firey": "fiery",
+            "flourescent": "fluorescent",
+            "foriegn": "foreign",
+            "fourty": "forty",
+            "freind": "friend",
+            "fulfil": "fulfill",
+            "goverment": "government",
+            "grammer": "grammar",
+            "gratefull": "grateful",
+            "harrass": "harass",
+            "hight": "height",
+            "hygeine": "hygiene",
+            "independance": "independence",
+            "inoculate": "innoculate",
+            "intresting": "interesting",
+            "irresistable": "irresistible",
+            "knowlege": "knowledge",
+            "lazer": "laser",
+            "libary": "library",
+            "lightening": "lightning",
+            "maintenence": "maintenance",
+            "managable": "manageable",
+            "mischevious": "mischievous",
+            "misspell": "misspell",
+            "neccessary": "necessary",
+            "noticable": "noticeable",
+            "occured": "occurred",
+            "occurence": "occurrence",
+            "oponent": "opponent",
+            "paralell": "parallel",
+            "pasttime": "pastime",
+            "persue": "pursue",
+            "posession": "possession",
+            "preceed": "precede",
+            "privelege": "privilege",
+            "publically": "publicly",
+            "recieve": "receive",
+            "recomend": "recommend",
+            "refered": "referred",
+            "religous": "religious",
+            "rember": "remember",
+            "rythm": "rhythm",
+            "seige": "siege",
+            "seperate": "separate",
+            "sieze": "seize",
+            "similiar": "similar",
+            "succesful": "successful",
+            "supersede": "supersede",
+            "thier": "their",
+            "tommorrow": "tomorrow",
+            "tounge": "tongue",
+            "truely": "truly",
+            "twelth": "twelfth",
+            "tyrany": "tyranny",
+            "underate": "underrate",
+            "untill": "until",
+            "usefull": "useful",
+            "vaccuum": "vacuum",
+            "vegeterian": "vegetarian",
+            "villian": "villain",
+            "wierd": "weird",
+            "writting": "writing",
+            "youre": "your",
+            "yuo": "you",
+            "amasing": "amazing",
+            "realy": "really",
+            "lite": "light",
+            "thru": "through",
+            "nite": "night",
+            "gr8": "great",
+            "u": "you",
+            "r": "are",
+            "plz": "please",
+            "thx": "thanks",
+            "btw": "by the way",
+            "imo": "in my opinion",
+            "omg": "oh my god",
+            "lol": "laugh out loud",
+            "brb": "be right back",
+            "tbh": "to be honest",
+            "idk": "I don't know",
+            "smh": "shaking my head",
+            "fyi": "for your information",
+            "afaik": "as far as I know",
+            "asap": "as soon as possible",
+            "atm": "at the moment",
+            "b4": "before",
+            "bday": "birthday",
+            "bc": "because",
+            "b/c": "because",
+            "cuz": "because",
+            "coz": "because",
+            "cos": "because",
+            "w/": "with",
+            "w/o": "without",
+            "wanna": "want to",
+            "gonna": "going to",
+            "gotta": "got to",
+            "kinda": "kind of",
+            "sorta": "sort of",
+            "lemme": "let me",
+            "gimme": "give me",
+            "outta": "out of",
+            "shoulda": "should have",
+            "coulda": "could have",
+            "woulda": "would have",
+            "musta": "must have",
+            "mighta": "might have",
+            "dunno": "don't know",
+            "probly": "probably",
+            "c'mon": "come on",
+            "ya": "you",
+            "yea": "yeah",
+            "nah": "no",
+            "yep": "yes",
+            "nope": "no",
+            "hey": "hello",
+            "hi": "hello",
+            "sup": "what's up",
+            "wassup": "what's up",
+            "howdy": "hello",
+            "dude": "person",
+            "bro": "brother",
+            "sis": "sister",
+            "mom": "mother",
+            "dad": "father",
+            "gf": "girlfriend",
+            "bf": "boyfriend",
+            "bff": "best friend forever",
+            "fam": "family",
+            "pic": "picture",
+            "vids": "videos",
+            "vid": "video",
+            "meme": "internet meme",
+            "selfie": "self-portrait",
+            "tech": "technology",
+            "app": "application",
+            "comp": "computer",
+            "phone": "telephone",
+            "cell": "cell phone",
+            "tv": "television",
+            "net": "internet",
+            "web": "world wide web",
+            "email": "electronic mail",
+            "txt": "text",
+            "msg": "message",
+            "ping": "contact",
+            "irl": "in real life",
+            "f2f": "face to face",
+            "pov": "point of view",
+            "tldr": "too long; didn't read",
+            "eli5": "explain like I'm 5",
+            "nsfw": "not safe for work",
+            "sfw": "safe for work",
+            "tba": "to be announced",
+            "tbd": "to be determined",
+            "eta": "estimated time of arrival",
+            "rsvp": "please respond",
+            "diy": "do it yourself",
+            "faq": "frequently asked questions",
+            "q&a": "questions and answers",
+            "qna": "questions and answers",
+            "ama": "ask me anything",
+            "imho": "in my humble opinion",
+            "tmi": "too much information",
+            "rofl": "rolling on the floor laughing",
+            "lmfao": "laughing my fucking ass off",
+            "ftw": "for the win",
+            "fml": "fuck my life",
+            "wtf": "what the fuck",
+            "omfg": "oh my fucking god",
+            "stfu": "shut the fuck up",
+            "gtfo": "get the fuck out",
+            "idgaf": "I don't give a fuck",
+            "smfh": "shaking my fucking head",
+            "fyi": "for your information",
+            "icymi": "in case you missed it",
+            "nvm": "never mind",
+            "jk": "just kidding",
+            "kk": "okay",
+            "np": "no problem",
+            "yw": "you're welcome",
+            "ty": "thank you",
+            "thx": "thanks",
+            "tnx": "thanks",
+            "tyvm": "thank you very much",
+            "np": "no problem",
+            "yvw": "you're very welcome",
+            "sry": "sorry",
+            "myb": "my bad",
+            "oops": "mistake",
+            "oopsie": "mistake",
+            "whoops": "mistake",
+            "whoopsie": "mistake",
+            "fail": "failure",
+            "epic fail": "major failure",
+            "win": "victory",
+            "epic win": "major victory",
+            "gg": "good game",
+            "gl": "good luck",
+            "hf": "have fun",
+            "brb": "be right back",
+            "afk": "away from keyboard",
+            "bbl": "be back later",
+            "bbs": "be back soon",
+            "gtg": "got to go",
+            "ttyl": "talk to you later",
+            "cya": "see you",
+            "l8r": "later",
+            "ttyl": "talk to you later",
+            "ily": "I love you",
+            "ilu": "I love you",
+            "ily2": "I love you too",
+            "hbd": "happy birthday",
+            "xmas": "Christmas",
+            "ny": "New Year",
+            "b-day": "birthday",
+            "anniv": "anniversary",
+            "congrats": "congratulations",
+            "grats": "congratulations",
+            "gj": "good job",
+            "nice": "good",
+            "sweet": "excellent",
+            "cool": "good",
+            "awesome": "excellent",
+            "amazeballs": "amazing",
+            "lit": "exciting",
+            "savage": "brutal",
+            "rekt": "destroyed",
+            "pwned": "dominated",
+            "salty": "bitter",
+            "sus": "suspicious",
+            "cringe": "embarrassing",
+            "yolo": "you only live once",
+            "fomo": "fear of missing out",
+            "jomo": "joy of missing out",
+            "fyi": "for your information",
+            "ps": "postscript",
+            "p.p.s": "post postscript",
+            "aka": "also known as",
+            "i.e.": "that is",
+            "e.g.": "for example",
+            "etc": "et cetera",
+            "vs": "versus",
+            "dept": "department",
+            "est": "established",
+            "min": "minimum",
+            "max": "maximum",
+            "temp": "temperature",
+            "approx": "approximately",
+            "appt": "appointment",
+            "apt": "apartment",
+            "ave": "avenue",
+            "blvd": "boulevard",
+            "dr": "drive",
+            "ln": "lane",
+            "rd": "road",
+            "st": "street",
+            "ste": "suite",
+            "hwy": "highway",
+            "fwy": "freeway",
+            "pky": "parkway",
+            "ct": "court",
+            "pl": "place",
+            "ter": "terrace",
+            "trl": "trail",
+            "sq": "square",
+            "cir": "circle",
+            "mt": "mount",
+            "mts": "mountains",
+            "ft": "fort",
+            "jr": "junior",
+            "sr": "senior",
+            "attn": "attention",
+            "c/o": "care of",
+            "asst": "assistant",
+            "dir": "director",
+            "mgr": "manager",
+            "pres": "president",
+            "v.p.": "vice president",
+            "vp": "vice president",
+            "ceo": "chief executive officer",
+            "cfo": "chief financial officer",
+            "cio": "chief information officer",
+            "cto": "chief technology officer",
+            "coo": "chief operating officer",
+            "dept": "department",
+            "div": "division",
+            "corp": "corporation",
+            "inc": "incorporated",
+            "ltd": "limited",
+            "llc": "limited liability company",
+            "plc": "public limited company",
+            "llp": "limited liability partnership",
+            "lp": "limited partnership",
+            "gp": "general partnership",
+            "pc": "professional corporation",
+            "pa": "professional association",
+            "dba": "doing business as",
+            "est": "estimated",
+            "etc": "et cetera",
+            "ex": "example",
+            "fig": "figure",
+            "i.e.": "id est",
+            "max": "maximum",
+            "min": "minimum",
+            "no.": "number",
+            "p": "page",
+            "pp": "pages",
+            "para": "paragraph",
+            "q.v.": "quod vide",
+            "re": "regarding",
+            "sec": "section",
+            "viz": "videlicet",
+            "vol": "volume",
+            "vs": "versus",
+            "w/": "with",
+            "w/o": "without",
+            "w/r/t": "with respect to",
+            "1st": "first",
+            "2nd": "second",
+            "3rd": "third",
+            "4th": "fourth",
+            "etc.": "et cetera"
         };
 
-        // Tone modifiers
-        const toneModifiers = {
-            formal: {
-                "don't": "do not",
-                "can't": "cannot",
-                "won't": "will not",
-                "isn't": "is not",
-                "it's": "it is",
-                "I'm": "I am",
-                "you're": "you are",
-                "they're": "they are",
-                "we're": "we are",
-                "that's": "that is",
-                "here's": "here is",
-                "gonna": "going to",
-                "wanna": "want to",
-                "kinda": "kind of",
-                "sorta": "sort of",
-                "gotta": "got to",
-                "yeah": "yes",
-                "hi": "hello",
-                "bye": "goodbye",
-                "thanks": "thank you"
-            },
-            informal: {
-                "do not": "don't",
-                "does not": "doesn't",
-                "cannot": "can't",
-                "will not": "won't",
-                "is not": "isn't",
-                "it is": "it's",
-                "I am": "I'm",
-                "you are": "you're",
-                "they are": "they're",
-                "we are": "we're",
-                "that is": "that's",
-                "here is": "here's",
-                "going to": "gonna",
-                "want to": "wanna",
-                "kind of": "kinda",
-                "sort of": "sorta",
-                "got to": "gotta",
-                "yes": "yeah",
-                "hello": "hi",
-                "goodbye": "bye",
-                "thank you": "thanks"
-            }
-        };
+        // Grammar rules
+        const grammarRules = [
+            // Subject-verb agreement
+            { pattern: /(he|she|it)\s(go|have|do|be)/gi, replacement: "$1 $2s" },
+            { pattern: /(I)\s(goes|has|does|is|am|are)/gi, replacement: "$1 go" },
+            { pattern: /(they|we|you)\s(goes|has|does|is)/gi, replacement: "$1 go" },
+            
+            // Common tense errors
+            { pattern: /\b(I|you|we|they)\s(is)\b/gi, replacement: "$1 are" },
+            { pattern: /\b(he|she|it)\s(are)\b/gi, replacement: "$1 is" },
+            { pattern: /\b(I|you|we|they)\s(was)\b/gi, replacement: "$1 were" },
+            { pattern: /\b(he|she|it)\s(were)\b/gi, replacement: "$1 was" },
+            
+            // Possessive errors
+            { pattern: /\bits'\b/gi, replacement: "its" },
+            { pattern: /\bit's\b/gi, replacement: "its" }, // When possessive
+            { pattern: /\byour\b\s\b(s|re)\b/gi, replacement: "you're" },
+            
+            // Double negatives
+            { pattern: /\b(?:dont|doesnt|havent|hasnt|cant)\sno\b/gi, replacement: "any" },
+            
+            // Commonly confused words
+            { pattern: /\btheir\b\s\b(are|is)\b/gi, replacement: "they're" },
+            { pattern: /\bthere\b\s\b(are|is)\b/gi, replacement: "they're" },
+            { pattern: /\byou're\b\s\b(welcome)\b/gi, replacement: "your" },
+            
+            // Missing articles
+            { pattern: /\b(\w+)\s(\w+)\b(?=\s(?:is|are|was|were))/gi, replacement: (match, p1, p2) => {
+                if (!['a', 'an', 'the'].includes(p1.toLowerCase())) {
+                    return `a ${p1} ${p2}`;
+                }
+                return match;
+            }},
+            
+            // Capitalization at start of sentence
+            { pattern: /(?:^|[.!?]\s+)([a-z])/g, replacement: (match, p1) => p1.toUpperCase() }
+        ];
 
-        // Sentence restructuring patterns
-        const restructuringPatterns = [
-            // Passive to active restructuring
-            {
-                pattern: /(.*?)\s(is|are|was|were)\s(.*?)\s(by\s.*?)([\.\?!])/gi,
-                replacement: "$4 $3 $2 $1$5"
-            },
-            // Rearranging clauses
-            {
-                pattern: /(.*?)(,\s*)(.*?)([\.\?!])/gi,
-                replacement: "$3$2$1$4"
-            },
-            // Changing sentence structure
-            {
-                pattern: /(I\s)(.*?)(\sthat\s)(.*?)([\.\?!])/gi,
-                replacement: "$1$4$3$2$5"
-            }
+        // Punctuation rules
+        const punctuationRules = [
+            // Missing spaces after punctuation
+            { pattern: /([.,!?])([a-zA-Z])/g, replacement: "$1 $2" },
+            
+            // Extra spaces before punctuation
+            { pattern: /\s+([.,!?])/g, replacement: "$1" },
+            
+            // Space after comma
+            { pattern: /,\s*([a-zA-Z])/g, replacement: ", $1" },
+            
+            // Capitalize "i"
+            { pattern: /\bi\b/g, replacement: "I" },
+            
+            // Fix ellipsis
+            { pattern: /\.{2,}/g, replacement: "..." },
+            
+            // Fix multiple exclamation/question marks
+            { pattern: /(!|\?){2,}/g, replacement: "$1" }
         ];
 
         // DOM Elements
@@ -518,16 +1114,39 @@
         const outputText = document.getElementById('outputText');
         const rewriteBtn = document.getElementById('rewriteBtn');
         const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
         const inputCharCount = document.getElementById('inputCharCount');
         const outputCharCount = document.getElementById('outputCharCount');
         const toneSelect = document.getElementById('tone');
-        const complexitySelect = document.getElementById('complexity');
+        const correctionLevelSelect = document.getElementById('correction-level');
+        const creativitySlider = document.getElementById('creativity');
+        const creativityValueDisplay = document.getElementById('creativityValueDisplay');
         const notification = document.getElementById('notification');
+        const spinner = document.getElementById('spinner');
+        const grammarStat = document.getElementById('grammarStat');
+        const spellingStat = document.getElementById('spellingStat');
+        const readabilityStat = document.getElementById('readabilityStat');
+        const correctionList = document.getElementById('correctionList');
 
         // Event Listeners
         inputText.addEventListener('input', updateCharCount);
         rewriteBtn.addEventListener('click', rewriteText);
         copyBtn.addEventListener('click', copyToClipboard);
+        clearBtn.addEventListener('click', clearAll);
+        creativitySlider.addEventListener('input', updateCreativityValue);
+        
+        // Initialize
+        function init() {
+            updateCharCount();
+            rewriteText();
+            updateCreativityValue();
+        }
+        
+        // Update creativity value display
+        function updateCreativityValue() {
+            const value = creativitySlider.value;
+            creativityValueDisplay.textContent = value;
+        }
         
         // Update character count
         function updateCharCount() {
@@ -535,57 +1154,249 @@
             inputCharCount.textContent = `${text.length} chars`;
         }
         
-        // Rewrite text function
+        // Rewrite and correct text
         function rewriteText() {
             const originalText = inputText.value.trim();
             
             // Handle empty input
             if (!originalText) {
-                outputText.value = "Please enter some text to rewrite.";
+                outputText.value = "Please enter some text to rewrite and correct.";
                 outputCharCount.textContent = "0 chars";
-                showNotification("Please enter text to rewrite", true);
+                showNotification("Please enter text to process", "error");
                 return;
             }
             
             // Handle very short text
             if (originalText.length < 10) {
-                outputText.value = "Text is too short to rewrite effectively. Please provide more content.";
+                outputText.value = "Text is too short to process effectively. Please provide more content.";
                 outputCharCount.textContent = "0 chars";
-                showNotification("Text is too short", true);
+                showNotification("Text is too short", "error");
                 return;
             }
             
             // Get settings
             const tone = toneSelect.value;
-            const complexity = complexitySelect.value;
+            const correctionLevel = correctionLevelSelect.value;
+            const creativity = parseInt(creativitySlider.value);
             
-            // Perform rewriting
-            try {
-                let rewrittenText = originalText;
+            // Show spinner
+            spinner.classList.add('active');
+            outputText.value = "Processing your text...";
+            correctionList.innerHTML = "<li class='correction-item'>Processing corrections...</li>";
+            
+            // Simulate processing time
+            setTimeout(() => {
+                try {
+                    let processedText = originalText;
+                    const corrections = [];
+                    let grammarFixes = 0;
+                    let spellingFixes = 0;
+                    
+                    // Apply spelling corrections
+                    for (const [wrong, correct] of Object.entries(spellingCorrections)) {
+                        const regex = new RegExp(`\\b${wrong}\\b`, 'gi');
+                        if (regex.test(processedText)) {
+                            const original = processedText.match(regex)[0];
+                            processedText = processedText.replace(regex, correct);
+                            spellingFixes++;
+                            corrections.push({
+                                original: original,
+                                corrected: correct,
+                                type: "spelling"
+                            });
+                        }
+                    }
+                    
+                    // Apply grammar corrections
+                    grammarRules.forEach(rule => {
+                        if (rule.pattern.test(processedText)) {
+                            const original = processedText.match(rule.pattern)[0];
+                            if (typeof rule.replacement === 'function') {
+                                processedText = processedText.replace(rule.pattern, rule.replacement);
+                            } else {
+                                processedText = processedText.replace(rule.pattern, rule.replacement);
+                            }
+                            grammarFixes++;
+                            corrections.push({
+                                original: original,
+                                corrected: processedText.match(new RegExp(rule.replacement))?.[0] || original,
+                                type: "grammar"
+                            });
+                        }
+                    });
+                    
+                    // Apply punctuation corrections
+                    punctuationRules.forEach(rule => {
+                        if (rule.pattern.test(processedText)) {
+                            const original = processedText.match(rule.pattern)[0];
+                            if (typeof rule.replacement === 'function') {
+                                processedText = processedText.replace(rule.pattern, rule.replacement);
+                            } else {
+                                processedText = processedText.replace(rule.pattern, rule.replacement);
+                            }
+                            corrections.push({
+                                original: original,
+                                corrected: processedText.match(new RegExp(rule.replacement))?.[0] || original,
+                                type: "punctuation"
+                            });
+                        }
+                    });
+                    
+                    // Apply tone modifications
+                    processedText = applyToneModifications(processedText, tone);
+                    
+                    // Apply synonym replacement
+                    processedText = replaceSynonyms(processedText, creativity);
+                    
+                    // Apply sentence restructuring
+                    processedText = restructureSentences(processedText, creativity);
+                    
+                    // Calculate readability
+                    const readability = calculateReadability(processedText);
+                    
+                    // Update output
+                    outputText.value = processedText;
+                    outputCharCount.textContent = `${processedText.length} chars`;
+                    
+                    // Update stats
+                    grammarStat.textContent = grammarFixes;
+                    spellingStat.textContent = spellingFixes;
+                    readabilityStat.textContent = readability;
+                    
+                    // Update corrections list
+                    updateCorrectionsList(corrections);
+                    
+                    showNotification("Text processed successfully!");
+                } catch (error) {
+                    outputText.value = "An error occurred during processing. Please try again.";
+                    outputCharCount.textContent = "0 chars";
+                    console.error("Processing error:", error);
+                    showNotification("Error processing text", "error");
+                } finally {
+                    spinner.classList.remove('active');
+                }
+            }, 800); // Simulate processing time
+        }
+        
+        // Update corrections list
+        function updateCorrectionsList(corrections) {
+            correctionList.innerHTML = "";
+            
+            if (corrections.length === 0) {
+                correctionList.innerHTML = "<li class='correction-item'>No corrections needed - perfect text!</li>";
+                return;
+            }
+            
+            corrections.slice(0, 20).forEach(correction => {
+                const item = document.createElement("li");
+                item.className = "correction-item";
                 
-                // Apply tone modifications
-                rewrittenText = applyToneModifications(rewrittenText, tone);
+                let typeText = "";
+                if (correction.type === "spelling") typeText = "(spelling)";
+                if (correction.type === "grammar") typeText = "(grammar)";
+                if (correction.type === "punctuation") typeText = "(punctuation)";
                 
-                // Apply synonym replacement
-                rewrittenText = replaceSynonyms(rewrittenText, complexity);
+                item.innerHTML = `
+                    <div class="correction-icon">→</div>
+                    <div class="correction-text">
+                        <span class="original-text">${correction.original}</span> 
+                        corrected to 
+                        <span class="corrected-text">${correction.corrected}</span>
+                        ${typeText}
+                    </div>
+                `;
                 
-                // Apply sentence restructuring
-                rewrittenText = restructureSentences(rewrittenText, complexity);
-                
-                // Update output
-                outputText.value = rewrittenText;
-                outputCharCount.textContent = `${rewrittenText.length} chars`;
-                showNotification("Text rewritten successfully!");
-            } catch (error) {
-                outputText.value = "An error occurred during rewriting. Please try again.";
-                outputCharCount.textContent = "0 chars";
-                console.error("Rewriting error:", error);
+                correctionList.appendChild(item);
+            });
+            
+            if (corrections.length > 20) {
+                const item = document.createElement("li");
+                item.className = "correction-item";
+                item.innerHTML = `<div class="correction-text">+ ${corrections.length - 20} more corrections...</div>`;
+                correctionList.appendChild(item);
             }
         }
         
         // Apply tone modifications
         function applyToneModifications(text, tone) {
             if (tone === "neutral") return text;
+            
+            const toneModifiers = {
+                formal: {
+                    "don't": "do not",
+                    "can't": "cannot",
+                    "won't": "will not",
+                    "isn't": "is not",
+                    "it's": "it is",
+                    "I'm": "I am",
+                    "you're": "you are",
+                    "they're": "they are",
+                    "we're": "we are",
+                    "that's": "that is",
+                    "here's": "here is",
+                    "gonna": "going to",
+                    "wanna": "want to",
+                    "kinda": "kind of",
+                    "sorta": "sort of",
+                    "gotta": "must",
+                    "yeah": "yes",
+                    "hi": "hello",
+                    "bye": "goodbye",
+                    "thanks": "thank you",
+                    "maybe": "perhaps",
+                    "also": "furthermore",
+                    "so": "therefore",
+                    "but": "however",
+                    "anyway": "nevertheless"
+                },
+                informal: {
+                    "do not": "don't",
+                    "does not": "doesn't",
+                    "cannot": "can't",
+                    "will not": "won't",
+                    "is not": "isn't",
+                    "it is": "it's",
+                    "I am": "I'm",
+                    "you are": "you're",
+                    "they are": "they're",
+                    "we are": "we're",
+                    "that is": "that's",
+                    "here is": "here's",
+                    "going to": "gonna",
+                    "want to": "wanna",
+                    "kind of": "kinda",
+                    "sort of": "sorta",
+                    "must": "gotta",
+                    "yes": "yeah",
+                    "hello": "hi",
+                    "goodbye": "bye",
+                    "thank you": "thanks",
+                    "perhaps": "maybe",
+                    "furthermore": "also",
+                    "therefore": "so",
+                    "however": "but",
+                    "nevertheless": "anyway"
+                },
+                academic: {
+                    "good": "beneficial",
+                    "bad": "detrimental",
+                    "big": "substantial",
+                    "small": "minimal",
+                    "a lot": "a significant number",
+                    "think": "contend",
+                    "show": "demonstrate",
+                    "help": "facilitate",
+                    "use": "utilize",
+                    "start": "commence",
+                    "stop": "conclude",
+                    "make": "construct",
+                    "change": "modify",
+                    "because": "due to the fact that",
+                    "so": "consequently",
+                    "but": "however",
+                    "also": "additionally"
+                }
+            };
             
             const modifiers = toneModifiers[tone];
             let modifiedText = text;
@@ -600,13 +1411,37 @@
         }
         
         // Replace words with synonyms
-        function replaceSynonyms(text, complexity) {
-            // Determine replacement probability based on complexity
-            let replacementProbability = 0.3; // medium
-            if (complexity === "simple") replacementProbability = 0.2;
-            else if (complexity === "advanced") replacementProbability = 0.4;
+        function replaceSynonyms(text, creativity) {
+            // Synonym dictionary
+            const synonyms = {
+                "good": ["excellent", "superb", "outstanding", "exceptional"],
+                "bad": ["poor", "substandard", "inferior", "unfavorable"],
+                "big": ["large", "substantial", "considerable", "sizeable"],
+                "small": ["tiny", "minute", "minuscule", "compact"],
+                "important": ["crucial", "vital", "significant", "paramount"],
+                "interesting": ["fascinating", "captivating", "engaging", "compelling"],
+                "difficult": ["challenging", "arduous", "demanding", "problematic"],
+                "easy": ["simple", "effortless", "straightforward", "uncomplicated"],
+                "use": ["utilize", "employ", "apply", "leverage"],
+                "help": ["assist", "aid", "support", "facilitate"],
+                "show": ["demonstrate", "display", "exhibit", "present"],
+                "start": ["commence", "initiate", "begin", "launch"],
+                "make": ["create", "produce", "fabricate", "construct"],
+                "change": ["modify", "alter", "adjust", "transform"],
+                "think": ["contemplate", "ponder", "consider", "reflect"],
+                "improve": ["enhance", "better", "upgrade", "refine"],
+                "provide": ["supply", "furnish", "offer", "deliver"],
+                "tool": ["instrument", "device", "implement", "apparatus"],
+                "writing": ["composition", "text", "document", "manuscript"],
+                "meaning": ["significance", "definition", "sense", "interpretation"],
+                "browser": ["web browser", "internet navigator", "explorer"],
+                "data": ["information", "facts", "figures", "statistics"],
+                "privacy": ["confidentiality", "secrecy", "discretion", "isolation"]
+            };
             
-            // Split text into words
+            // Determine replacement probability based on creativity
+            let replacementProbability = creativity / 15;
+            
             return text.split(/\b/).map(word => {
                 // Skip short words and words that are part of phrases
                 if (word.length < 3 || !/^\w+$/.test(word)) return word;
@@ -614,13 +1449,12 @@
                 // Skip words with capital letters (likely proper nouns)
                 if (word[0] === word[0].toUpperCase()) return word;
                 
-                // Check if word has synonyms
                 const lowerWord = word.toLowerCase();
-                const synonyms = synonymDictionary[lowerWord];
                 
-                if (synonyms && Math.random() < replacementProbability) {
+                // Check if word has synonyms
+                if (synonyms[lowerWord] && Math.random() < replacementProbability) {
                     // Randomly select a synonym
-                    const synonym = synonyms[Math.floor(Math.random() * synonyms.length)];
+                    const synonym = synonyms[lowerWord][Math.floor(Math.random() * synonyms[lowerWord].length)];
                     
                     // Preserve capitalization
                     if (word[0] === word[0].toUpperCase()) {
@@ -634,11 +1468,9 @@
         }
         
         // Restructure sentences
-        function restructureSentences(text, complexity) {
-            // Determine restructuring probability based on complexity
-            let restructuringProbability = 0.4; // medium
-            if (complexity === "simple") restructuringProbability = 0.3;
-            else if (complexity === "advanced") restructuringProbability = 0.5;
+        function restructureSentences(text, creativity) {
+            // Determine restructuring probability based on creativity
+            let restructuringProbability = creativity / 20;
             
             // Split text into sentences
             const sentences = text.split(/(?<=[.!?])\s+/);
@@ -649,8 +1481,27 @@
                 
                 // Apply restructuring based on probability
                 if (Math.random() < restructuringProbability) {
+                    // Possible restructuring patterns
+                    const patterns = [
+                        // Passive to active
+                        {
+                            pattern: /(.*?)\s(is|are|was|were)\s(.*?)\s(by\s.*?)([\.\?!])/gi,
+                            replacement: "$4 $3 $2 $1$5"
+                        },
+                        // Rearranging clauses
+                        {
+                            pattern: /(.*?)(,\s*)(.*?)([\.\?!])/gi,
+                            replacement: "$3$2$1$4"
+                        },
+                        // Changing sentence structure
+                        {
+                            pattern: /(I\s)(.*?)(\sthat\s)(.*?)([\.\?!])/gi,
+                            replacement: "$1$4$3$2$5"
+                        }
+                    ];
+                    
                     // Randomly select a pattern
-                    const pattern = restructuringPatterns[Math.floor(Math.random() * restructuringPatterns.length)];
+                    const pattern = patterns[Math.floor(Math.random() * patterns.length)];
                     const restructured = sentence.replace(pattern.pattern, pattern.replacement);
                     
                     // Only use if restructuring was applied and result makes sense
@@ -662,10 +1513,33 @@
             }).join(' ');
         }
         
+        // Calculate readability score (Flesch Reading Ease)
+        function calculateReadability(text) {
+            const sentences = text.split(/[.!?]/).filter(s => s.trim().length > 0);
+            const words = text.split(/\s+/).filter(word => word.length > 0);
+            const syllables = words.reduce((count, word) => {
+                word = word.toLowerCase();
+                if (word.length <= 3) return count + 1;
+                return count + word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '')
+                                   .replace(/^y/, '')
+                                   .match(/[aeiouy]{1,2}/g)?.length || 1;
+            }, 0);
+            
+            if (sentences.length === 0 || words.length === 0) return 0;
+            
+            const asl = words.length / sentences.length; // Average sentence length
+            const asw = syllables / words.length; // Average syllables per word
+            
+            // Flesch Reading Ease formula
+            const score = 206.835 - (1.015 * asl) - (84.6 * asw);
+            
+            return Math.round(score);
+        }
+        
         // Copy to clipboard
         function copyToClipboard() {
             if (!outputText.value) {
-                showNotification("Nothing to copy", true);
+                showNotification("Nothing to copy", "error");
                 return;
             }
             
@@ -674,22 +1548,35 @@
             showNotification("Text copied to clipboard!");
         }
         
+        // Clear all content
+        function clearAll() {
+            inputText.value = "";
+            outputText.value = "";
+            updateCharCount();
+            outputCharCount.textContent = "0 chars";
+            grammarStat.textContent = "0";
+            spellingStat.textContent = "0";
+            readabilityStat.textContent = "0";
+            correctionList.innerHTML = "";
+            showNotification("All content cleared");
+        }
+        
         // Show notification
-        function showNotification(message, isError = false) {
-            notification.textContent = message;
-            notification.style.backgroundColor = isError ? "#e74c3c" : "#2ecc71";
+        function showNotification(message, type = "success") {
+            notification.querySelector('span').textContent = message;
+            notification.className = "notification";
+            
+            if (type === "error") {
+                notification.classList.add("error");
+            } else if (type === "warning") {
+                notification.classList.add("warning");
+            }
+            
             notification.classList.add('show');
             
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
-        }
-        
-        // Initialize
-        function init() {
-            // Set initial example text
-            inputText.value = "The AI-powered text rewriter is a useful tool that can help you improve your writing. It can rewrite sentences in different ways while keeping the original meaning. This tool works completely offline in your browser, so your data stays private. Try it now to see how it can enhance your writing!";
-            updateCharCount();
         }
         
         // Initialize on page load
