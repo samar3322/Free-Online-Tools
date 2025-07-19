@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Free online tool to split PDF documents into multiple parts. Split your PDFs into 2 to 5 sections quickly and easily." />
-  <meta name="keywords" content="split pdf, pdf splitter, pdf tools, online pdf, document tools" />
-  <title>PDF Splitter Pro | Split PDF Documents Online</title>
+  <meta name="description" content="Free online tool to split PDF documents into multiple parts with custom ranges. Split your PDFs exactly how you want." />
+  <meta name="keywords" content="split pdf, pdf splitter, custom pdf split, pdf tools, online pdf, document tools" />
+  <title>Advanced PDF Splitter Pro | Split PDF with Custom Ranges</title>
 
   <!-- Font Awesome & Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -26,14 +26,11 @@
       --text-light: #7f8c8d;
       --white: #ffffff;
       --light-gray: #ecf0f1;
+      --success-green: #2ecc71;
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Poppins', sans-serif;
@@ -42,10 +39,7 @@
       padding: 20px;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: auto;
-    }
+    .container { max-width: 800px; margin: auto; }
 
     header {
       display: flex;
@@ -55,53 +49,13 @@
       margin-bottom: 30px;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .logo i {
-      font-size: 2.5rem;
-      color: var(--primary-red);
-    }
-
+    .logo { display: flex; align-items: center; gap: 15px; }
+    .logo i { font-size: 2.5rem; color: var(--primary-red); }
     .logo h1 {
       font-size: 1.8rem;
       font-weight: 700;
       background: linear-gradient(to right, var(--primary-red), var(--dark-yellow));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 25px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--text-dark);
-      font-weight: 500;
-      position: relative;
-    }
-
-    nav a:hover {
-      color: var(--primary-red);
-    }
-
-    .main-content {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 30px;
-    }
-
-    @media (max-width: 768px) {
-      .main-content {
-        grid-template-columns: 1fr;
-      }
+      -webkit-background-clip: text; background-clip: text; color: transparent;
     }
 
     .tool-container {
@@ -118,9 +72,7 @@
       text-align: center;
     }
 
-    .tool-body {
-      padding: 30px;
-    }
+    .tool-body { padding: 30px; }
 
     .upload-area {
       border: 2px dashed var(--light-red);
@@ -130,18 +82,15 @@
       background-color: var(--light-yellow);
       margin-bottom: 30px;
       cursor: pointer;
+      transition: all 0.3s;
     }
+    .upload-area:hover { border-color: var(--primary-red); background-color: #fcf3cf; }
+    .upload-area i { font-size: 3rem; color: var(--primary-red); margin-bottom: 15px; }
 
-    .upload-area:hover {
-      border-color: var(--primary-red);
-      background-color: #fcf3cf;
-    }
-
-    .upload-area i {
-      font-size: 3rem;
-      color: var(--primary-red);
-      margin-bottom: 15px;
-    }
+    .file-display { text-align: center; }
+    .file-display h3 { margin-bottom: 5px; }
+    .file-display p { color: var(--text-light); font-size: 0.9rem; }
+    .file-info { margin-bottom: 20px; }
 
     .btn {
       display: inline-block;
@@ -156,76 +105,41 @@
       text-decoration: none;
       transition: all 0.3s;
     }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4); }
+    .btn:disabled { background: var(--light-gray); color: var(--text-light); cursor: not-allowed; transform: none; box-shadow: none; }
+    
+    .btn-outline { background: transparent; border: 2px solid var(--primary-red); color: var(--primary-red); }
+    .btn-add {
+      background: var(--success-green);
+      padding: 8px 15px;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
     }
 
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary-red);
-      color: var(--primary-red);
-    }
-
-    .split-options {
-      margin: 30px 0;
-    }
-
-    .split-options h3 {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-    }
-
-    .split-range {
+    .split-options { margin-top: 30px; display: none; }
+    .split-part {
       display: flex;
-      align-items: center;
       gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .split-range input {
-      flex: 1;
-      height: 10px;
-      background: var(--light-gray);
-      border-radius: 5px;
-    }
-
-    .split-count {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .split-option {
-      flex: 1;
-      text-align: center;
+      align-items: center;
+      margin-bottom: 15px;
+      background: var(--light-yellow);
       padding: 15px;
       border-radius: 10px;
-      background-color: var(--light-yellow);
-      border: 2px solid transparent;
-      cursor: pointer;
+      border-left: 5px solid var(--dark-yellow);
     }
-
-    .split-option:hover,
-    .split-option.active {
-      border-color: var(--primary-red);
-      background-color: #fcf3cf;
-    }
-
-    .ad-space {
-      background-color: var(--light-gray);
-      border-radius: 10px;
-      min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-light);
-      border: 1px dashed var(--text-light);
+    .split-part input {
+      width: 80px;
+      padding: 8px;
+      border: 1px solid var(--light-red);
+      border-radius: 5px;
       text-align: center;
-      padding: 20px;
     }
+    .split-part input:focus { outline: 2px solid var(--primary-red); }
+    .split-part .error { border-color: var(--primary-red); }
+    .split-part button { background: none; border: none; font-size: 1.2rem; color: var(--primary-red); cursor: pointer; }
+    
+    .action-buttons { text-align: center; margin-top: 20px; }
+    #status { margin-top: 20px; text-align: center; font-weight: 500; }
   </style>
 </head>
 <body>
@@ -233,170 +147,208 @@
     <header>
       <div class="logo">
         <i class="fas fa-file-pdf"></i>
-        <h1>PDF Splitter Pro</h1>
+        <h1>Advanced PDF Splitter</h1>
       </div>
-      
     </header>
 
-    <div class="main-content">
-      <div class="tool-container">
-        <div class="tool-header">
-          <h2><i class="fas fa-cut"></i> Split PDF Files Online</h2>
-        </div>
-        <div class="tool-body">
-          <!-- Upload Area -->
-          <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <h3>Upload PDF File</h3>
-            <p>Drag & drop or click to select a file</p>
-            <input type="file" id="fileInput" accept=".pdf" hidden />
-          </div>
-
-          <!-- Split Options -->
-          <div class="split-options">
-            <h3><i class="fas fa-sliders-h"></i> Split Options</h3>
-            <div class="split-range">
-              <span>2</span>
-              <input type="range" id="splitRange" min="2" max="5" value="2" />
-              <span>5</span>
-            </div>
-            <div class="split-count">
-              <div class="split-option" data-value="2">
-                <i class="fas fa-file-medical"></i>
-                <h4>2 Parts</h4>
-              </div>
-              <div class="split-option" data-value="3">
-                <i class="fas fa-copy"></i>
-                <h4>3 Parts</h4>
-              </div>
-              <div class="split-option" data-value="4">
-                <i class="fas fa-th"></i>
-                <h4>4 Parts</h4>
-              </div>
-              <div class="split-option" data-value="5">
-                <i class="fas fa-file-archive"></i>
-                <h4>5 Parts</h4>
-              </div>
-            </div>
-          </div>
-
-          <!-- Action Buttons -->
-          <div style="text-align: center; margin-top: 20px;">
-            <button class="btn" id="splitBtn"><i class="fas fa-bolt"></i> Optimize & Split</button>
-            <button class="btn btn-outline" onclick="resetUpload()"><i class="fas fa-redo"></i> Reset</button>
-          </div>
-        </div>
+    <div class="tool-container">
+      <div class="tool-header">
+        <h2><i class="fas fa-cut"></i> Split Your PDF with Precision</h2>
       </div>
+      <div class="tool-body">
+        <div class="upload-area" id="uploadArea">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <h3>Upload PDF File</h3>
+          <p>Drag & drop or click to select a file</p>
+          <input type="file" id="fileInput" accept=".pdf" hidden />
+        </div>
 
-      <!-- Ad Space -->
-      <div class="ad-space">
-        <p>Ad Space - Your ad here</p>
+        <div class="split-options" id="splitOptions">
+          <h3><i class="fas fa-sliders-h"></i> Define Split Parts</h3>
+          <p style="margin-bottom: 20px; color: var(--text-light);">Define the page ranges for each new PDF file.</p>
+          <div id="splitPartsContainer">
+            <!-- Split parts will be dynamically added here -->
+          </div>
+          <div style="text-align: right;">
+            <button class="btn btn-add" id="addPartBtn"><i class="fas fa-plus"></i> Add Part</button>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn" id="splitBtn" disabled><i class="fas fa-bolt"></i> Split PDF</button>
+          <button class="btn btn-outline" id="resetBtn" style="display: none;"><i class="fas fa-redo"></i> Start Over</button>
+        </div>
+        <div id="status"></div>
       </div>
     </div>
   </div>
 
-  <!-- JavaScript -->
   <script>
-    let selectedFile = null;
-
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('.split-option[data-value="2"]').classList.add('active');
+      const { PDFDocument } = PDFLib;
+      let selectedFile = null;
+      let pdfDoc = null;
+      let totalPages = 0;
 
       const fileInput = document.getElementById('fileInput');
       const uploadArea = document.getElementById('uploadArea');
-      const splitRange = document.getElementById('splitRange');
+      const splitOptions = document.getElementById('splitOptions');
+      const splitBtn = document.getElementById('splitBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const addPartBtn = document.getElementById('addPartBtn');
+      const splitPartsContainer = document.getElementById('splitPartsContainer');
+      const statusDiv = document.getElementById('status');
 
-      splitRange.addEventListener('input', function () {
-        const value = this.value;
-        document.querySelectorAll('.split-option').forEach(opt => {
-          opt.classList.remove('active');
-          if (opt.dataset.value === value) opt.classList.add('active');
-        });
-      });
-
-      document.querySelectorAll('.split-option').forEach(option => {
-        option.addEventListener('click', function () {
-          document.querySelectorAll('.split-option').forEach(opt => opt.classList.remove('active'));
-          this.classList.add('active');
-          splitRange.value = this.dataset.value;
-        });
-      });
-
-      uploadArea.addEventListener('dragover', e => {
-        e.preventDefault();
-        uploadArea.style.backgroundColor = '#fcf3cf';
-      });
-
-      uploadArea.addEventListener('dragleave', () => {
-        uploadArea.style.backgroundColor = 'var(--light-yellow)';
-      });
-
-      uploadArea.addEventListener('drop', e => {
-        e.preventDefault();
-        selectedFile = e.dataTransfer.files[0];
-        displayFile(selectedFile);
-      });
-
-      fileInput.addEventListener('change', () => {
-        if (fileInput.files.length) {
-          selectedFile = fileInput.files[0];
-          displayFile(selectedFile);
+      const handleFileSelect = (file) => {
+        if (file && file.type === 'application/pdf') {
+          selectedFile = file;
+          loadFile();
+        } else {
+          alert('Please select a valid PDF file.');
         }
+      };
+
+      uploadArea.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
+      
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+          uploadArea.addEventListener(eventName, e => {
+              e.preventDefault();
+              e.stopPropagation();
+          });
       });
+      uploadArea.addEventListener('dragover', () => uploadArea.style.backgroundColor = '#fcf3cf');
+      uploadArea.addEventListener('dragleave', () => uploadArea.style.backgroundColor = 'var(--light-yellow)');
+      uploadArea.addEventListener('drop', (e) => handleFileSelect(e.dataTransfer.files[0]));
 
-      document.getElementById('splitBtn').addEventListener('click', async () => {
-        if (!selectedFile) return alert("Please upload a PDF file first.");
+      addPartBtn.addEventListener('click', () => addSplitPart());
+      splitBtn.addEventListener('click', processSplit);
+      resetBtn.addEventListener('click', resetTool);
 
-        const parts = parseInt(document.querySelector('.split-option.active').dataset.value);
-        const arrayBuffer = await selectedFile.arrayBuffer();
-        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-        const totalPages = pdfDoc.getPageCount();
-        const pagesPerSplit = Math.ceil(totalPages / parts);
+      async function loadFile() {
+        uploadArea.innerHTML = `
+          <div class="file-display">
+            <i class="fas fa-file-pdf" style="font-size: 3rem; color: var(--primary-red);"></i>
+            <div class="file-info">
+              <h3>${selectedFile.name}</h3>
+              <p>Loading document...</p>
+            </div>
+          </div>`;
+        
+        try {
+          const arrayBuffer = await selectedFile.arrayBuffer();
+          pdfDoc = await PDFDocument.load(arrayBuffer);
+          totalPages = pdfDoc.getPageCount();
 
-        for (let i = 0; i < parts; i++) {
-          const newPdf = await PDFLib.PDFDocument.create();
-          const start = i * pagesPerSplit;
-          const end = Math.min(start + pagesPerSplit, totalPages);
-          const copiedPages = await newPdf.copyPages(pdfDoc, [...Array(end - start).keys()].map(k => k + start));
-          copiedPages.forEach(page => newPdf.addPage(page));
-          const pdfBytes = await newPdf.save();
-          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `Split_Part_${i + 1}.pdf`;
-          a.click();
-          URL.revokeObjectURL(url);
+          uploadArea.querySelector('.file-info p').textContent = `Document has ${totalPages} pages.`;
+          splitOptions.style.display = 'block';
+          splitBtn.disabled = false;
+          resetBtn.style.display = 'inline-block';
+
+          addSplitPart();
+        } catch (e) {
+          statusDiv.textContent = 'Error: Could not read the PDF file.';
+          statusDiv.style.color = 'var(--primary-red)';
         }
-      });
+      }
+      
+      function addSplitPart(start = '', end = '') {
+          const partId = `part-${Date.now()}`;
+          const partDiv = document.createElement('div');
+          partDiv.className = 'split-part';
+          partDiv.id = partId;
+          partDiv.innerHTML = `
+              <label>Part ${splitPartsContainer.children.length + 1}:</label>
+              <input type="number" placeholder="Start Page" min="1" max="${totalPages}" value="${start}" oninput="validateInput(this)">
+              <span>to</span>
+              <input type="number" placeholder="End Page" min="1" max="${totalPages}" value="${end}" oninput="validateInput(this)">
+              <button onclick="document.getElementById('${partId}').remove()"><i class="fas fa-trash-alt"></i></button>
+          `;
+          splitPartsContainer.appendChild(partDiv);
+      }
+
+      window.validateInput = (input) => {
+        input.classList.remove('error');
+        const value = parseInt(input.value);
+        if (value < 1 || value > totalPages) {
+          input.classList.add('error');
+        }
+      }
+
+      async function processSplit() {
+        if (!pdfDoc) return;
+        
+        const parts = Array.from(splitPartsContainer.children).map(part => {
+          const inputs = part.querySelectorAll('input');
+          return {
+            start: parseInt(inputs[0].value),
+            end: parseInt(inputs[1].value)
+          };
+        });
+
+        if (parts.some(p => isNaN(p.start) || isNaN(p.end) || p.start < 1 || p.end > totalPages || p.start > p.end)) {
+          statusDiv.textContent = 'Please check your page ranges. Some values are invalid.';
+          statusDiv.style.color = 'var(--primary-red)';
+          return;
+        }
+
+        statusDiv.textContent = 'Splitting PDF... please wait.';
+        statusDiv.style.color = 'var(--text-dark)';
+        splitBtn.disabled = true;
+
+        try {
+          for (let i = 0; i < parts.length; i++) {
+            const { start, end } = parts[i];
+            const newPdf = await PDFDocument.create();
+            const pageIndices = Array.from({ length: end - start + 1 }, (_, k) => k + start - 1);
+            const copiedPages = await newPdf.copyPages(pdfDoc, pageIndices);
+            copiedPages.forEach(page => newPdf.addPage(page));
+            
+            const pdfBytes = await newPdf.save();
+            downloadBlob(pdfBytes, `Split_Part_${i + 1}_(pages_${start}-${end}).pdf`, 'application/pdf');
+          }
+          statusDiv.textContent = 'Splitting successful! Your files are downloading.';
+          statusDiv.style.color = 'var(--success-green)';
+        } catch (e) {
+          statusDiv.textContent = 'An error occurred during splitting.';
+          statusDiv.style.color = 'var(--primary-red)';
+        } finally {
+          splitBtn.disabled = false;
+        }
+      }
+      
+      function downloadBlob(data, fileName, mimeType) {
+        const blob = new Blob([data], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      function resetTool() {
+        selectedFile = null;
+        pdfDoc = null;
+        totalPages = 0;
+        
+        uploadArea.innerHTML = `
+          <i class="fas fa-cloud-upload-alt"></i>
+          <h3>Upload PDF File</h3>
+          <p>Drag & drop or click to select a file</p>
+        `;
+        fileInput.value = '';
+        splitOptions.style.display = 'none';
+        splitPartsContainer.innerHTML = '';
+        splitBtn.disabled = true;
+        resetBtn.style.display = 'none';
+        statusDiv.textContent = '';
+      }
     });
-
-    function displayFile(file) {
-      const area = document.getElementById('uploadArea');
-      area.innerHTML = `
-        <i class="fas fa-file-pdf" style="color: var(--primary-red);"></i>
-        <h3>${file.name}</h3>
-        <p>${(file.size / 1024 / 1024).toFixed(2)} MB</p>
-        <button class="btn btn-outline" onclick="resetUpload()">
-          <i class="fas fa-sync"></i> Change File
-        </button>
-      `;
-    }
-
-    function resetUpload() {
-      selectedFile = null;
-      const area = document.getElementById('uploadArea');
-      area.innerHTML = `
-        <i class="fas fa-cloud-upload-alt"></i>
-        <h3>Upload PDF File</h3>
-        <p>Drag & drop or click to select a file</p>
-        <input type="file" id="fileInput" accept=".pdf" hidden />
-      `;
-      document.getElementById('fileInput').addEventListener('change', e => {
-        selectedFile = e.target.files[0];
-        displayFile(selectedFile);
-      });
-    }
   </script>
 </body>
 </html>
+     
+      
