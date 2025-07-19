@@ -480,11 +480,12 @@
     /* Responsive adjustments */
     @media(max-width: 768px){
       body {
-        padding: 10px;
+        padding: 0;
       }
       
       .chat-container {
-        height: 95vh;
+        height: 100vh;
+        border-radius: 0;
       }
       
       .title {
@@ -496,6 +497,11 @@
         margin-top: 10px;
         justify-content: center;
         width: 100%;
+        order: 3;
+      }
+      
+      .header-content {
+        flex-wrap: wrap;
       }
       
       .message {
@@ -558,6 +564,10 @@
         gap: 10px;
       }
       
+      #userInput {
+        font-size: 0.95rem;
+      }
+      
       #sendBtn {
         margin-left: 0;
         width: 100%;
@@ -566,7 +576,7 @@
       
       .suggestions {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
       }
       
       .suggestion {
@@ -606,10 +616,10 @@
         <div class="welcome-message">
           <h3>Welcome to AI Wikipedia Assistant</h3>
           <p>
-  I can answer your questions using Wikipedia's knowledge base. 
-  <b style="color:red;"><strong>"Strictly ask in a Single Key word of your Question"</strong></b> 
-  , it may be anything about people, places, history, science, or current events!
-</p>
+            I can answer your questions using Wikipedia's knowledge base. 
+            <b style="color:red;"><strong>"Strictly ask in a Single Key word of your Question"</strong></b> 
+            , it may be anything about people, places, history, science, or current events!
+          </p>
           
           <div class="features">
             <div class="feature-card">
@@ -675,10 +685,10 @@
           <div class="welcome-message">
             <h3>Welcome to AI Wikipedia Assistant</h3>
             <p>
-  I can answer your questions using Wikipedia's knowledge base. 
-  <b style="color:red;"><strong>"Strictly ask in a Single Key word of your Question"</strong></b> 
-  , it may be anything about people, places, history, science, or current events!
-</p>
+              I can answer your questions using Wikipedia's knowledge base. 
+              <b style="color:red;"><strong>"Strictly ask in a Single Key word of your Question"</strong></b> 
+              , it may be anything about people, places, history, science, or current events!
+            </p>
             <div class="features">
               <div class="feature-card"><div class="feature-icon"><i class="fas fa-book"></i></div><h4 class="feature-title">Wikipedia</h4><p class="feature-desc">Accurate information from Wikipedia's database</p></div>
               <div class="feature-card"><div class="feature-icon"><i class="fas fa-brain"></i></div><h4 class="feature-title">AI Insights</h4><p class="feature-desc">Intelligent responses using advanced AI</p></div>
@@ -746,7 +756,7 @@
       const ruleResponse = (msg) => {
         const t = msg.toLowerCase();
         if (/\b(hi|hello|hey|greetings)\b/.test(t)) return 'Hello! How can I assist you today?';
-        if (/\b(how are you|how're you|how are u)\b/.test(t)) return "I'm an AI assistant, so I don't have feelings, but I'm functioning perfectly! How can I help you?";
+        if (/\b(how are you|how\'re you|how are u)\b/.test(t)) return "I'm an AI assistant, so I don't have feelings, but I'm functioning perfectly! How can I help you?";
         if (/\b(thanks?|thank you|appreciate)\b/.test(t)) return "You're welcome! Is there anything else I can help with?";
         if (/\b(weather|forecast|temperature)\b/.test(t)) return "I can't access real-time weather data, but I can provide historical weather facts from Wikipedia if you ask about a specific event!";
         if (/\b(time\b|what time is it\b)/.test(t)) return `The current time is ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
@@ -859,6 +869,6 @@
   </script>
   <footer>
       <p>© 2025 Streamix Tools | All rights reserved | Created by Samar Jeet Jamwal</p>
-       </footer>
+  </footer>
 </body>
 </html>
