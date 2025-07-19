@@ -1,118 +1,163 @@
-<!DOCTYPE html>
+
+       <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free online PDF compressor tool to reduce file size by up to 80%. Compress your PDF files by 40%, 50%, 60%, 70%, or 80% with ease.">
-    <meta name="keywords" content="compress pdf, reduce pdf size, optimize pdf, pdf compressor, online pdf tool">
+    <meta name="description" content="Free online PDF optimizer tool to reduce file size. This tool optimizes your PDF files with ease.">
+    <meta name="keywords" content="compress pdf, reduce pdf size, optimize pdf, pdf optimizer, online pdf tool">
     <meta name="author" content="CompressPDF Online">
     <title>Compress PDF - Optimize PDF File Size Online</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
         body {
             margin: 0;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: #fffbea;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         header {
             background-color: #d32f2f;
             color: #fff;
-            padding: 1rem;
+            padding: 1.5rem 1rem;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
         }
         .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 1rem;
+            max-width: 600px;
+            width: 100%;
+            margin: 2rem 0;
+            padding: 2rem;
             background-color: #fff7e6;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .file-input {
-            margin-bottom: 1rem;
-        }
-        input[type="file"] {
-            padding: 0.5rem;
-            width: 100%;
-        }
-        select, button {
-            padding: 0.6rem;
-            width: 100%;
-            margin-top: 1rem;
-            font-size: 1rem;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #d32f2f;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #b71c1c;
-        }
-        .output {
-            margin-top: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+        .file-input-area {
+            border: 2px dashed #d32f2f;
+            border-radius: 10px;
+            padding: 2rem;
+            background-color: #fffbea;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .file-input-area:hover {
+            background-color: #fcece7;
+        }
+        .file-input-area p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .button-primary {
+            background-color: #d32f2f;
+            color: #fff;
+        }
+        .button-primary:hover {
+            background-color: #b71c1c;
+            transform: translateY(-2px);
+        }
+        .button-download {
+            background-color: #28a745;
+            color: #fff;
+        }
+        .button-download:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        .output {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+        }
+        .output p {
+            margin: 0.5rem 0;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #d32f2f;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 1.5rem auto 0;
+            display: none; /* Hidden by default */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         .ad-space {
-            margin: 2rem 0;
+            margin: 2rem 0 1rem;
             background-color: #fce4ec;
             text-align: center;
             padding: 1rem;
-            border: 2px dashed #d32f2f;
             border-radius: 5px;
         }
         footer {
             text-align: center;
-            padding: 1rem;
+            padding: 1.5rem;
             background-color: #f5f5f5;
-            margin-top: 2rem;
-        }
-        @media (max-width: 600px) {
-            .container {
-                padding: 0.8rem;
-            }
+            color: #555;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Compress PDF - Free Online PDF Optimizer</h1>
+        <h1>Free Online PDF Optimizer</h1>
     </header>
     
-    <div class="container">
-        <div class="file-input">
-            <label for="pdfFile">Select PDF File:</label>
-            <input type="file" id="pdfFile" accept="application/pdf">
+    <main class="main-content">
+        <div class="container">
+            <div id="fileInputArea" class="file-input-area">
+                <input type="file" id="pdfFile" accept="application/pdf" onchange="displayFileName()">
+                <p><strong>Drag & drop your file here or click to select a PDF</strong></p>
+                <p id="fileName" style="margin-top: 1rem; color: #d32f2f; font-weight: 500;"></p>
+            </div>
+
+            <button id="compressBtn" class="button button-primary" onclick="optimizePDF()">Optimize PDF</button>
+
+            <div id="loader" class="loader"></div>
+            
+            <div class="output" id="output"></div>
+            
+            <a id="downloadLink" href="#" class="button button-download" style="display:none;" download="optimized.pdf">Download Optimized PDF</a>
+
+            <div class="ad-space">
+                <p>Advertisement</p>
+            </div>
         </div>
-
-        <label for="compressionLevel">Select Compression Level:</label>
-        <select id="compressionLevel">
-            <option value="0.6">40% Compression</option>
-            <option value="0.5">50% Compression</option>
-            <option value="0.4">60% Compression</option>
-            <option value="0.3">70% Compression</option>
-            <option value="0.2">80% Compression</option>
-        </select>
-
-        <button onclick="compressPDF()">Compress PDF</button>
-        <a id="downloadLink" href="#" style="display:none;" download="compressed.pdf">
-            <button style="margin-top:1rem; background-color:green;">Download Compressed PDF</button>
-        </a>
-
-        <div class="output" id="output"></div>
-
-        <div class="ad-space">
-            <!-- Google Admob Placeholder -->
-            <p>Advertisement</p>
-            <script async src="https://www.googletagservices.com/tag/js/gpt.js"></script>
-            <script>
-                var admobId = 'ca-app-pub-8556753483227928/8473829268';
-            </script>
-        </div>
-    </div>
+    </main>
 
     <footer>
         © 2025 Streamix Tools | All rights reserved. Created by Samar Jeet Jamwal
@@ -120,40 +165,91 @@
 
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
     <script>
-        async function compressPDF() {
-            const fileInput = document.getElementById('pdfFile');
-            const level = parseFloat(document.getElementById('compressionLevel').value);
-            const output = document.getElementById('output');
-            const downloadLink = document.getElementById('downloadLink');
+        const fileInputArea = document.getElementById('fileInputArea');
+        const fileInput = document.getElementById('pdfFile');
+        const fileNameDisplay = document.getElementById('fileName');
+        const output = document.getElementById('output');
+        const downloadLink = document.getElementById('downloadLink');
+        const loader = document.getElementById('loader');
+        const compressBtn = document.getElementById('compressBtn');
 
+        fileInputArea.addEventListener('click', () => fileInput.click());
+        fileInputArea.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            fileInputArea.style.backgroundColor = '#fcece7';
+        });
+        fileInputArea.addEventListener('dragleave', () => {
+            fileInputArea.style.backgroundColor = '#fffbea';
+        });
+        fileInputArea.addEventListener('drop', (event) => {
+            event.preventDefault();
+            fileInputArea.style.backgroundColor = '#fffbea';
+            fileInput.files = event.dataTransfer.files;
+            displayFileName();
+        });
+
+        function displayFileName() {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = `Selected: ${fileInput.files[0].name}`;
+                output.innerHTML = '';
+                downloadLink.style.display = 'none';
+            }
+        }
+
+        async function optimizePDF() {
             if (!fileInput.files.length) {
-                output.innerHTML = '<p style="color: red;">Please upload a PDF file first.</p>';
+                output.innerHTML = '<p style="color: red;">Please select a PDF file first.</p>';
                 return;
             }
 
             const file = fileInput.files[0];
-            output.innerHTML = '<p>Compressing PDF. Please wait...</p>';
+            const originalSize = (file.size / 1024).toFixed(2);
 
-            const reader = new FileReader();
-            reader.onload = async function () {
-                const existingPdfBytes = new Uint8Array(reader.result);
-                const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
-                const pdfBytes = await pdfDoc.save({ useObjectStreams: false });
+            output.innerHTML = '<p>Optimizing PDF. Please wait...</p>';
+            loader.style.display = 'block';
+            compressBtn.style.display = 'none';
+            downloadLink.style.display = 'none';
 
-                // Simulate compression (real compression would adjust objects/quality)
-                const compressedBytes = pdfBytes.slice(0, Math.floor(pdfBytes.length * level));
-                const blob = new Blob([compressedBytes], { type: 'application/pdf' });
+            try {
+                const existingPdfBytes = await file.arrayBuffer();
+                const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes, { 
+                    // This option can help by ignoring some non-critical errors
+                    ignoreEncryption: true 
+                });
+
+                // Re-saving the document with pdf-lib can optimize the structure
+                // and remove unused objects, leading to a smaller file size.
+                const pdfBytes = await pdfDoc.save();
+
+                const newSize = (pdfBytes.length / 1024).toFixed(2);
+                const sizeReduction = originalSize - newSize;
+                const reductionPercentage = ((sizeReduction / originalSize) * 100).toFixed(2);
+
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
                 const url = URL.createObjectURL(blob);
+                
                 downloadLink.href = url;
                 downloadLink.style.display = 'inline-block';
 
-                output.innerHTML = `
-                    <p>Original Size: ${(existingPdfBytes.length / 1024).toFixed(2)} KB</p>
-                    <p>Estimated Compressed Size: ${(compressedBytes.length / 1024).toFixed(2)} KB</p>
-                    <p style="color: green;">Compression of ~${Math.floor((1 - level) * 100)}% completed.</p>
-                `;
-            };
-            reader.readAsArrayBuffer(file);
+                let resultMessage = `
+                    <p><strong>Optimization Complete!</strong></p>
+                    <p>Original Size: ${originalSize} KB</p>
+                    <p>Optimized Size: ${newSize} KB</p>`;
+                
+                if (sizeReduction > 0) {
+                    resultMessage += `<p style="color: green;">Reduced by ${sizeReduction.toFixed(2)} KB (${reductionPercentage}%)</p>`;
+                } else {
+                    resultMessage += `<p style="color: orange;">File size did not decrease. The PDF was already optimized.</p>`;
+                }
+                output.innerHTML = resultMessage;
+
+            } catch (error) {
+                console.error(error);
+                output.innerHTML = `<p style="color: red;">An error occurred while processing the PDF. The file might be corrupted or encrypted.</p>`;
+            } finally {
+                loader.style.display = 'none';
+                compressBtn.style.display = 'inline-block';
+            }
         }
     </script>
 </body>
