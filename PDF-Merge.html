@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -602,7 +602,7 @@
         
         <header>
             <h1><i class="fas fa-file-pdf"></i> PDFMerge Pro</h1>
-            <p>Merge multiple PDF files and rearrange pages with our free online tool. Maximum 10 pages per merge.</p>
+            <p>Merge up to 50 PDF files and rearrange their pages with our free and secure online tool.</p>
         </header>
         
         <!-- Top Ad Container -->
@@ -636,7 +636,7 @@
                 <button class="btn" id="browse-btn">
                     <i class="fas fa-folder-open"></i> Browse Files
                 </button>
-                <p class="upload-subtext">Maximum 10 pages total | Files are processed locally</p>
+                <p class="upload-subtext">Maximum 50 files | Up to 200 pages total | Files are processed locally</p>
             </div>
             
             <div class="file-info" id="file-info" style="display: none;">
@@ -783,7 +783,8 @@
         let pdfFiles = [];
         let pages = [];
         let totalPages = 0;
-        const maxPages = 10;
+        const maxFiles = 50;
+        const maxPages = 200;
         let mergedPdfBytes = null;
         
         // Event Listeners
@@ -828,6 +829,11 @@
             
             // Reset status message
             uploadStatus.style.display = 'none';
+
+            if (pdfFiles.length + files.length > maxFiles) {
+                showStatusMessage(`You can select a maximum of ${maxFiles} files.`, 'error');
+                return;
+            }
             
             // Check if total pages would exceed limit
             let newPagesCount = 0;
